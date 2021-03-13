@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT-Project/main.cpp" "/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT-Project/cmake-build-debug/CMakeFiles/Smart_Lights_IoT_Project.dir/main.cpp.o"
+  "/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/main.cpp" "/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/CMakeFiles/Smart_Lights_IoT_Project.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
