@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Smart_Lights_IoT_Project.dir/main.cpp.o  -o Smart_Lights_IoT_Project  /usr/lib/x86_64-linux-gnu/libpistache-0.0.002-git20210107.so.0.0 /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so 
