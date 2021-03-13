@@ -1,4 +1,8 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Smart_Lights_IoT_Project.dir/Buzzer.cpp.o"
+  "CMakeFiles/Smart_Lights_IoT_Project.dir/Lights.cpp.o"
+  "CMakeFiles/Smart_Lights_IoT_Project.dir/SmartLamp.cpp.o"
+  "CMakeFiles/Smart_Lights_IoT_Project.dir/SmartLightController.cpp.o"
   "CMakeFiles/Smart_Lights_IoT_Project.dir/main.cpp.o"
   "Smart_Lights_IoT_Project"
   "Smart_Lights_IoT_Project.pdb"

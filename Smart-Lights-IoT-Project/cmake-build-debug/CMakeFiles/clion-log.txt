@@ -1,4 +1,4 @@
-/snap/clion/139/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project
+/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug
+-- Build files have been written to: /mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug
