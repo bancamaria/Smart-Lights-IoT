@@ -17,17 +17,22 @@
 #include <pistache/common.h>
 
 #include <signal.h>
+#include "SmartLamp.h"
+
 using namespace Pistache;
+
 
 class SmartLightController {
 public:
-   explicit SmartLightController(Address addr)
-    : httpEndpoint(std::make_shared<Http::Endpoint>(addr))
-    { }
+    explicit SmartLightController(Address addr)
+            : httpEndpoint(std::make_shared<Http::Endpoint>(addr)) {}
+
     // Initialization of the server. Additional options can be provided here
     void init(size_t thr = 2);
+
     // Server is started threaded.
     void start();
+
     // When signaled server shuts down
     void stop();
 
@@ -36,12 +41,15 @@ private:
     using Guard = std::lock_guard<Lock>;
     Lock microwaveLock;
 
-//    TODO: Lights and Buzzer
-//  SmartLamp smartLamp;
+   SmartLamp smartLamp;
 
     // Defining the httpEndpoint and a router.
     std::shared_ptr<Http::Endpoint> httpEndpoint;
     Rest::Router router;
+
+    void setupRoutes();
+    void doAuth(const Rest::Request &request, Http::ResponseWriter response);
+
 };
 
 

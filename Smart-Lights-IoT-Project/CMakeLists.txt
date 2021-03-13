@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 project(Smart_Lights_IoT_Project)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_FLAGS -pthread)
 find_package(Pistache 0.0.2 REQUIRED)
 
 add_executable(Smart_Lights_IoT_Project main.cpp SmartLightController.cpp SmartLightController.h Lights.cpp Lights.h Buzzer.cpp Buzzer.h SmartLamp.cpp SmartLamp.h)
