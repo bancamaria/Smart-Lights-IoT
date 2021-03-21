@@ -1,0 +1,99 @@
+{
+    "device-name": "SmartBulbs",
+    "device-type": "Lightbulb",
+    "buffers-count": 2,
+    //How the buffers should look like
+    "input-buffers":{
+        //Via which we simulate the recording of sound
+        "MICROPHONE":{
+            "token-delimitators": "&", //Symbol that separates the tokens in the buffer
+            "protocol": "HTTP", // The protocol used to communicate with this buffer
+
+            //The Microphone Input buffer will be activated via a request throught this api
+            "prefix": "http://localhost:8081/microphone/",
+            
+            //ptz? + these:
+            "buffer-tokens":[//
+            {
+                "name":"Microphone Action",
+                "description":"Input that dictates what option to choose for the microphone",
+                
+                // Possible values:  
+                // recording=patternValue as below for simulation of a sound pattern that is to be reocrded
+
+
+                // or, via GET:/microphone/settings/ we could
+                // sensitivity=X set microphone sensitivity, i.e. it will scale signals of sound from 0 to
+                // newPattern = patternValue & mapsTo = actionToTake & colorMapping = colorSchemeForPattern
+                //  register a new pattern with i.e. react to patternValue
+                // the patternValue mapsTo either CHANGE LIGHT INTESITY  |  CHANGE LIGHT COLOR | START LIGTH PATTERN
+                // colorMapping to register in case mapsTo = START_LIGHT_PATTERN : type "colorId-interval-colorId-interval-..."
+                "token-type":"string", // 
+                "byte-size":256, //Maximum size of the token
+                
+                //Must be an upperCase Word
+                "regex-rule": "record|sensitivity|newPattern|mapsTo|colorMapping",
+
+                //This is required since it is the action required to happen 
+                "optional": false 
+            },
+
+            {
+                "name":"Micropohne Action Value",
+
+                //Basically each of the sound patterns described consist of a string 
+                //Could Also be sensitivity=value as a token
+                // Could also be newPattern=patternValue
+                "description": "The Pattern of The Sound That is 'Recorded', or TRUE for a Shutdown",
+                
+                "token-type":"string",
+                "byte-size":256,
+
+                //each "1" represents a clap or a sound, and "0" represents 0.5 seconds of silence 
+                //E.g: https://localhost:8080/micropohne?record=100101  translatest to CLAP-1second silence-CLAP-CLAP
+                //E.g: https://localhost:8080/micropohne/settings?sensitivity=3 set sensitivity to 3
+                //E.g: https://localhost:8080/micropohne/settings?newPattern=10011&mapsTo=START_LIGHTS_PATTERN&colorPattern=RED-3-BLUE-2-GREEN-2
+                // register pattern 10011 as a START_LIGHTS_PATTERN with pattern RED 3s, BLUE 2s, GREEN2s
+                "regex-rule": "^=1([0,1]*)|^=[1-5]|^=([A-Z]*_)+[A-Z]+|^=([A-Z]+(_\d)*)+(_[A-Z]+_\d)*",
+                "optional": false
+            }
+
+            // PHOTORESISTIOR INPUT BUFFER
+            ]
+        }
+    },
+    "output-buffers":{
+        "LIGHT":{
+            "token-delimitators": " ",
+            "protocol": "HTTP",
+            "prefix": "http://192.168.0.112:8080", // The buffer requires that it is initialized with this content
+            "caller":"local", // Remote or Local. The caller variable describes who runs this buffer. Either
+// your app sends the data (local), or the data is requested by another device (remote)
+            "buffer-tokens":[
+            {
+                "name":"Get Light",
+                "description":"This output buffer simulates the light behaviour",
+                "token-type":"string", // What type of token should be fuzzed in this position of the buffer
+                "byte-size":256,
+                "regex-rule": "/light", // Optional parameter to guide fuzzer generator
+                
+                //How the light behaves
+                "output":{
+
+                    //Could either be STATIC or specified by a pattern like RED-3-BLUE-2-GREEN-3 as above",
+                    "pattern": "RED-3-BLUE-2-GREEN-3 as above",
+                    //Colors that are being displayed either this or a Singleton if pattern == STATIC
+                    "colors":[
+                     "RED","BLUE","GREEN"   
+                    ],
+                    //To set up scale later
+                    "intensity":35
+                },
+                "optional": false // Can the fuzzer give a null value on this token?
+            }
+
+            // TODO : SOUND OUTPUT BUFFER
+            ]
+        }
+    }
+}
