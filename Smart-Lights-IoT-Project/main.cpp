@@ -17,16 +17,7 @@ int main(int argc, char *argv[]) {
 
 //    // Set a port on which your server to communicate
     Port port(9080);
-//
-//    // Number of threads used by the server
-//    int thr = 2;
-//
-//    if (argc >= 2) {
-//        port = static_cast<uint16_t>(std::stol(argv[1]));
-//
-//        if (argc == 3)
-//            thr = std::stoi(argv[2]);
-//    }
+
 
     Address addr(Ipv4::any(), port);
     int thr = 2;

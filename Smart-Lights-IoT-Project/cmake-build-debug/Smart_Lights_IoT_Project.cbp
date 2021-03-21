@@ -5,7 +5,7 @@
 		<Option title="Smart_Lights_IoT_Project"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\cmake\pistache\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\cmake\pistache\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\_deps\;CMake Files\cmake-build-debug\_deps\json-src\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug"/>
@@ -44,6 +44,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-src/include"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -66,6 +67,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-src/include"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -123,6 +125,9 @@
 		</Unit>
 		<Unit filename="/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/../../../../../../../../../usr/local/lib/cmake/pistache/PistacheTargets.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\..\..\usr\local\lib\cmake\pistache\"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\json-src\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

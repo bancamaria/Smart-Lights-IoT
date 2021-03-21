@@ -1,3 +1,5 @@
 /mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/CMakeFiles/edit_cache.dir
 /mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/CMakeFiles/Smart_Lights_IoT_Project.dir
+/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Catalin/Desktop/Lab/IP/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-build/CMakeFiles/rebuild_cache.dir

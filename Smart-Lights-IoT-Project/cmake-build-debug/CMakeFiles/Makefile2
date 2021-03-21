@@ -64,8 +64,27 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Smart_Lights_IoT_Project.dir/clean
+clean: _deps/json-build/clean
 
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory _deps/json-build
+
+# Recursive "all" directory target.
+_deps/json-build/all:
+
+.PHONY : _deps/json-build/all
+
+# Recursive "preinstall" directory target.
+_deps/json-build/preinstall:
+
+.PHONY : _deps/json-build/preinstall
+
+# Recursive "clean" directory target.
+_deps/json-build/clean:
+
+.PHONY : _deps/json-build/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Smart_Lights_IoT_Project.dir

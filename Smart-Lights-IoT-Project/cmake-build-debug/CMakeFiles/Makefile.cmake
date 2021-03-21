@@ -11,6 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeSystem.cmake"
+  "_deps/json-src/CMakeLists.txt"
   "/usr/local/lib/cmake/pistache/PistacheConfig.cmake"
   "/usr/local/lib/cmake/pistache/PistacheConfigVersion.cmake"
   "/usr/local/lib/cmake/pistache/PistacheTargets-release.cmake"
@@ -33,6 +34,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.16/Modules/Compiler/GNU-C.cmake"
   "/usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.16/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-3.16/Modules/FetchContent.cmake"
+  "/usr/share/cmake-3.16/Modules/FetchContent/CMakeLists.cmake.in"
   "/usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.16/Modules/FindPackageMessage.cmake"
   "/usr/share/cmake-3.16/Modules/FindThreads.cmake"
@@ -53,7 +56,9 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
+  "_deps/json-subbuild/CMakeLists.txt"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "_deps/json-build/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
