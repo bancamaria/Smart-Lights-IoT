@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="pistache"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\_deps\;CMake Files\cmake-build-debug\_deps\json-src\;CMake Files\cmake-build-debug\_deps\pistache-src\;CMake Files\cmake-build-debug\_deps\pistache-src\CMakeModules\;CMake Files\cmake-build-debug\_deps\pistache-src\include\;CMake Files\cmake-build-debug\_deps\pistache-src\include\pistache\;CMake Files\cmake-build-debug\_deps\pistache-src\src\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="dist">
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 dist"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache_static">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/libpistache.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache_static"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache_static/fast">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/libpistache.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache_static/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/pistache.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/../include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache/fast">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/pistache.objlib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/../include"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache_shared">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/libpistache-0.0.002-git20210107.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache_shared"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="pistache_shared/fast">
+				<Option output="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/libpistache-0.0.002-git20210107.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DONLY_C_LOCALE=1"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 pistache_shared/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/client/client.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/base64.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/cookie.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/description.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/http.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/http_defs.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/http_header.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/http_headers.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/mime.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/net.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/os.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/peer.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/reactor.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/stream.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/string_logger.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/tcp.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/timer_pool.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/transport.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/common/utils.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/server/endpoint.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/server/listener.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-build/src/CMakeFiles/pistache.dir/server/router.cc.o">
+			<Option target="pistache_static"/>
+			<Option target="pistache_shared"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/async.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/base64.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/client.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/common.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/config.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/cookie.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/description.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/endpoint.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/errors.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/flags.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/http.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/http_defs.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/http_header.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/http_headers.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/iterator_adapter.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/listener.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/log.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/mailbox.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/mime.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/net.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/optional.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/os.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/peer.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/prototype.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/reactor.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/route_bind.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/router.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/ssl_wrappers.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/stream.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/string_logger.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/string_view.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/tcp.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/timer_pool.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/transport.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/type_checkers.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/typeid.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/utils.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/view.h">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/client/client.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/base64.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/cookie.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/description.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/http.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/http_defs.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/http_header.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/http_headers.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/mime.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/net.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/os.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/peer.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/reactor.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/stream.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/string_logger.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/tcp.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/timer_pool.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/transport.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/common/utils.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/server/endpoint.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/server/listener.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/server/router.cc">
+			<Option target="pistache"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\json-src\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/libpistache.pc.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/CMakeModules/CheckAtomic.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\CMakeModules\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/include/pistache/version.h.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\include\pistache\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\src\"/>
+		</Unit>
+		<Unit filename="/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/src/PistacheConfig.cmake.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\_deps\pistache-src\src\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

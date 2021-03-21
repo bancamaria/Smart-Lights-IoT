@@ -1,0 +1,14 @@
+# Target labels
+ pistache-populate
+# Source files and their labels
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/CMakeFiles/pistache-populate
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/CMakeFiles/pistache-populate.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/CMakeFiles/pistache-populate-complete.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-install.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-mkdir.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-download.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-update.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-patch.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-configure.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-build.rule
+/home/ruxandra/Documents/FACULTATE/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-subbuild/pistache-populate-prefix/src/pistache-populate-stamp/pistache-populate-test.rule

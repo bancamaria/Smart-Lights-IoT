@@ -5,9 +5,6 @@
 #ifndef SMART_LIGHTS_IOT_PROJECT_SMARTLAMP_H
 #define SMART_LIGHTS_IOT_PROJECT_SMARTLAMP_H
 
-
-#include "Buzzer.h"
-#include "Lights.h"
 #include "pistache/http.h"
 
 using namespace Pistache;
@@ -28,7 +25,7 @@ typedef std::pair<std::string,int> color_pattern_member;
 class SmartLamp {
 
 public:
-    explicit SmartLamp():buzzer(), lights(){
+    explicit SmartLamp(){
         possibleActions.insert(std::make_pair("TURN_ON_LIGHT",ACTION::TURN_ON_LIGHT));
         possibleActions.insert(std::make_pair("TURN_OFF_LIGHT",ACTION::TURN_OFF_LIGHT));
         possibleActions.insert(std::make_pair("CHANGE_COLOR",ACTION::CHANGE_COLOR));
@@ -47,9 +44,6 @@ public:
     void on_sound_record();
 
 private:
-    Buzzer buzzer;
-    Lights lights;
-
     /*Members that can adjust the microphone */
     std::unordered_map<std::string,ACTION> soundPatterns;
     std::unordered_map<std::string,std::vector<color_pattern_member>> colorPatterns;

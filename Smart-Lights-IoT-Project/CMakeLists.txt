@@ -10,14 +10,23 @@ FetchContent_Declare(json
         GIT_TAG v3.7.3)
 
 FetchContent_GetProperties(json)
-
 if(NOT json_POPULATED)
     FetchContent_Populate(json)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-find_package(Pistache 0.0.2 REQUIRED)
-add_executable(Smart_Lights_IoT_Project main.cpp SmartLightController.cpp SmartLightController.h Lights.cpp Lights.h Buzzer.cpp Buzzer.h SmartLamp.cpp SmartLamp.h)
+FetchContent_Declare(pistache
+        GIT_REPOSITORY https://github.com/pistacheio/pistache)
+FetchContent_GetProperties(pistache)
+if(NOT pistache_POPULATED)
+    FetchContent_Populate(pistache)
+    add_subdirectory(${pistache_SOURCE_DIR} ${pistache_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
+
+
+#find_package(Pistache 0.0.2 REQUIRED)
+add_executable(Smart_Lights_IoT_Project main.cpp SmartLightController.cpp SmartLightController.h SmartLamp.cpp SmartLamp.h)
 target_link_libraries(Smart_Lights_IoT_Project pistache_shared)
 
 target_link_libraries( Smart_Lights_IoT_Project nlohmann_json::nlohmann_json)

@@ -1,0 +1,3 @@
+repository='https://github.com/pistacheio/pistache'
+module=''
+tag='origin'
