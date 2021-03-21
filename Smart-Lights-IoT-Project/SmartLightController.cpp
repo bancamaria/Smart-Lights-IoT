@@ -24,8 +24,6 @@ void SmartLightController::stop() {
 
 void SmartLightController::setupRoutes() {
     using namespace Rest;
-    // Defining various endpoints
-    // Generally say that when http://localhost:9080/ready is called, the handleReady function should be called.
 
     /*
      *  RARESITO's EXAMPLE
@@ -34,9 +32,19 @@ void SmartLightController::setupRoutes() {
     Routes::Post(router, "/settings/:settingName/:value", Routes::bind(&MicrowaveEndpoint::setSetting, this));
     Routes::Get(router, "/settings/:settingName/", Routes::bind(&MicrowaveEndpoint::getSetting, this));
      */
-    Routes::Get(router, "/test1", Routes::bind(&SmartLightController::doAuth, this));
-}
+    Routes::Get(router, "/home", Routes::bind(&SmartLightController::doAuth, this));
 
+    /*Here we will post messages that will simulate the sound "recorded" by the smart lamp*/
+    Routes::Get(router, "/microphone/settings", Routes::bind(&SmartLightController::getMicrophoneSettings, this));
+    Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
+
+    Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
+    Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
+
+}
+/*
+void SmartLightController::(){
+}*/
 void SmartLightController::doAuth(const Rest::Request& request, Http::ResponseWriter response) {
 //    RARESITO' example:
 //     Function that prints cookies
@@ -48,5 +56,72 @@ void SmartLightController::doAuth(const Rest::Request& request, Http::ResponseWr
     // Send the response
     response.send(Http::Code::Ok,"The Light Controller Works.");
 }
+
+void SmartLightController::getMicrophoneSettings(const Rest::Request& request, Http::ResponseWriter response) {
+    json result;
+    result["sensitivity"] = smartLamp.getMicSensitivity();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok,result.dump(3));
+}
+
+void SmartLightController::setMicrophoneSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    /*
+     * Parse the parameters from the url
+     * */
+    cout<<request.body();
+    if(request.query().has("sensitivity")){
+        int val = std::stoi(request.query().get("sensitivity").getOrElse("0"));
+        smartLamp.setMicSensitivity(val);
+    }
+
+
+}
+
+
+void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {
+
+    string bad_request_message = "In order to register a new pattern please provide the pattern and the action that maps it";
+    if(!request.query().has("newPattern")) {
+        response.send(Http::Code::Bad_Request, "newPattern must not be null.");
+        return;
+    }
+        string newPattern = request.query().get("newPattern").getOrElse("");
+        if(newPattern.empty()){
+            response.send(Http::Code::Bad_Request, "newPattern must not be null.");
+            return;
+        }
+        if(!request.query().has("mapsTo")){
+            response.send(Http::Code::Bad_Request, "newPattern must have a valid mapping action.");
+            return;
+        }
+        string soundMapping = request.query().get("mapsTo").getOrElse("");
+        if(soundMapping.empty() || !smartLamp.hasMapping(soundMapping)) {
+            response.send(Http::Code::Bad_Request, "newPattern must have a valid mapping action.");
+            return;
+        }
+        bool res = smartLamp.addSoundPattern(newPattern, soundMapping);
+        if(res){
+            json sendBack;
+            sendBack["newPattern"] = smartLamp.getSoundPatterns()[newPattern];
+
+            response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+            response.send(Http::Code::Ok, sendBack.dump());
+            return;
+        }else{
+            response.send(Http::Code::Internal_Server_Error, "Failed to insert: " + newPattern + "as" + soundMapping);
+            return;
+        }
+
+}
+
+void SmartLightController::getRegisteredPatterns(const Rest::Request &request, Http::ResponseWriter response) {
+    auto patterns = smartLamp.getSoundPatterns();
+    json sendBack;
+    sendBack["patterns"] = patterns;
+
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok, sendBack.dump(3));
+}
+
 
 

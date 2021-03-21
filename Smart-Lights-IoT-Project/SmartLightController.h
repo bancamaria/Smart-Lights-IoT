@@ -18,8 +18,10 @@
 
 #include <signal.h>
 #include "SmartLamp.h"
-
+#include "nlohmann/json.hpp"
 using namespace Pistache;
+using namespace std;
+using namespace nlohmann;
 
 
 class SmartLightController {
@@ -36,12 +38,18 @@ public:
     // When signaled server shuts down
     void stop();
 
+    void getMicrophoneSettings(const Rest::Request& request, Http::ResponseWriter response);
+    void setMicrophoneSettings(const Rest::Request& request, Http::ResponseWriter response);
+    void registerPattern(const Rest::Request& request, Http::ResponseWriter response);
+    void getRegisteredPatterns(const Rest::Request& request, Http::ResponseWriter response);
+
 private:
     using Lock = std::mutex;
     using Guard = std::lock_guard<Lock>;
-    Lock microwaveLock;
+    Lock lock;
 
-   SmartLamp smartLamp;
+    /*SmartLamp will be our high-level service. This will in fac resolve all the requests intercepted by the controller.*/
+    SmartLamp smartLamp;
 
     // Defining the httpEndpoint and a router.
     std::shared_ptr<Http::Endpoint> httpEndpoint;
