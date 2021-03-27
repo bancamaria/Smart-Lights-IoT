@@ -18,11 +18,8 @@
 
 #include <signal.h>
 #include "SmartLamp.h"
-#include "nlohmann/json.hpp"
 using namespace Pistache;
 using namespace std;
-using namespace nlohmann;
-
 
 class SmartLightController {
 public:
@@ -38,8 +35,20 @@ public:
     // When signaled server shuts down
     void stop();
 
+    /*
+     * Note: required to add a refference to ResponseWriter because passing by value is not allowed
+     * (copy constructor is private for some reasone).*/
     void getMicrophoneSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setMicrophoneSettings(const Rest::Request& request, Http::ResponseWriter response);
+
+    /*
+     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
+     * or
+     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=CHANGE_COLOR&color=COLOR
+     * or
+     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=START_LIGHT_PATTERN&ligthPattern=PATTERN_CONFIG
+     *
+     * */
     void registerPattern(const Rest::Request& request, Http::ResponseWriter response);
     void getRegisteredPatterns(const Rest::Request& request, Http::ResponseWriter response);
 
@@ -57,6 +66,8 @@ private:
 
     void setupRoutes();
     void doAuth(const Rest::Request &request, Http::ResponseWriter response);
+    static std::pair<bool, std::string> isValidRequestParam(const std::string& paramName, const Rest::Request& request,
+                                                            Http::ResponseWriter& response);
 
 };
 
