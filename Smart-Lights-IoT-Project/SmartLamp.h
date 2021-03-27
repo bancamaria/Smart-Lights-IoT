@@ -101,6 +101,9 @@ public:
     void setBulbIntensity(const int &lightValue);
     int getBulbIntensity();
 
+    void setColor(const int &color);
+    int getColor();
+
     smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
 
 
@@ -116,6 +119,7 @@ private:
     int buzzerStatus;
     int bulbStatus;
     int lightIntensity;
+    int bulbColor;
 };
 
 

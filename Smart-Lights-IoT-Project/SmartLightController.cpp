@@ -38,9 +38,14 @@ void SmartLightController::setupRoutes() {
     Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
     Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
 
+    Routes::Get(router, "/color/settings", Routes::bind(&SmartLightController::getColorSettings, this));
+    Routes::Post(router, "/color/settings", Routes::bind(&SmartLightController::setColorSettings, this));
+
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
     Routes::Get(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
+
+
 }
 
 /*
@@ -108,6 +113,26 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         smartLamp.setBulbStatus(valStatus);
         int valIntensity = std::stoi(request.query().get("intensity").getOrElse("0"));
         smartLamp.setBulbIntensity(valIntensity);
+    }
+}
+
+void SmartLightController::getColorSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    json result;
+    result["color"] = smartLamp.getColor();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok, result.dump(3));
+}
+
+void SmartLightController::setColorSettings(const Rest::Request &request, Http::ResponseWriter response ) {
+    /*
+     * Parse the parameters from the url
+     * */
+    cout<<request.body();
+    if (request.query().has("status") && request.query().has("color")) {
+        int valStatus = std::stoi(request.query().get("status").getOrElse("0"));
+        smartLamp.setBulbStatus(valStatus);
+        int valColor = std::stoi(request.query().get("color").getOrElse("0"));
+        smartLamp.setColor(valColor);
     }
 }
 

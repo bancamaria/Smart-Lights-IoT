@@ -150,5 +150,11 @@ int SmartLamp::getBulbIntensity() {
     return lightIntensity;
 }
 
+int SmartLamp::getColor() {
+    return bulbColor;
+}
 
+void SmartLamp::setColor(const int &color) {
+    bulbColor = color;
+}
 
