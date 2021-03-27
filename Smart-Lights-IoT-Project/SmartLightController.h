@@ -44,6 +44,9 @@ public:
     void getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
 
+    void getBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
+    void setBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
+
     /*
      * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
      * or

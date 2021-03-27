@@ -20,12 +20,18 @@ namespace smartlamp{
         CHANGE_COLOR,
         START_COLOR_PATTERN,
         TURN_ON_BUZZER,
-        TURN_OFF_BUZZER
+        TURN_OFF_BUZZER,
+        CHANGE_INTENSITY
     };
 
     enum MIC_CONFIG{
         SENSITIVITY,
         PATTERNS
+    };
+
+    enum BULB_CONFIG {
+        BULB_STATUS,
+        INTENSITY
     };
 
     struct ParametrizedAction{
@@ -34,7 +40,7 @@ namespace smartlamp{
     };
 
     enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
-        STATUS,
+        BUZZER_STATUS,
     };
 
     void to_json(json& j, const ParametrizedAction& p);
@@ -75,6 +81,7 @@ public:
         possibleActions.insert(std::make_pair("TURN_ON_BUZZER",smartlamp::ACTION::TURN_ON_LIGHT));
         possibleActions.insert(std::make_pair("TURN_OFF_BUZZER",smartlamp::ACTION::TURN_OFF_LIGHT));
 
+        possibleActions.insert(std::make_pair("CHANGE_INTENSITY", smartlamp::ACTION::CHANGE_INTENSITY));
     };
 
     bool hasMapping(const std::string &mapping);
@@ -89,6 +96,10 @@ public:
     void setBuzzerStatus(const int &status);
     int getBuzzerStatus();
 
+    void setBulbStatus(const int &status);
+    int getBulbStatus();
+    void setBulbIntensity(const int &lightValue);
+    int getBulbIntensity();
 
     smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
 
@@ -103,6 +114,8 @@ private:
     smartlamp::light::LightState currentState;
     int micSensitivity;
     int buzzerStatus;
+    int bulbStatus;
+    int lightIntensity;
 };
 
 

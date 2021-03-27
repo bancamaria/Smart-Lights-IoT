@@ -35,11 +35,14 @@ void SmartLightController::setupRoutes() {
     Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
     Routes::Get(router, "/buzzer/settings", Routes::bind(&SmartLightController::getBuzzerSettings, this));
     Routes::Post(router, "/buzzer/settings", Routes::bind(&SmartLightController::setBuzzerSettings, this));
+    Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
+    Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
 
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
-    Routes::Get(router,"/microphone", Routes::bind(&SmartLightController::onSoundRecorded,this));
+    Routes::Get(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
 }
+
 /*
 void SmartLightController::(){
 }*/
@@ -87,7 +90,24 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
 
     if(request.query().has("status")){
         int val = std::stoi(request.query().get("status").getOrElse("0"));
-        smartLamp.setMicSensitivity(val);
+        smartLamp.setBuzzerStatus(val);
+    }
+}
+
+void SmartLightController::getBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    json result;
+    result["intensity"] = smartLamp.getBulbIntensity();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok,result.dump(3));
+}
+
+void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    cout << request.body();
+    if (request.query().has("status") && request.query().has("intensity")) {
+        int valStatus = std::stoi(request.query().get("status").getOrElse("0"));
+        smartLamp.setBulbStatus(valStatus);
+        int valIntensity = std::stoi(request.query().get("intensity").getOrElse("0"));
+        smartLamp.setBulbIntensity(valIntensity);
     }
 }
 

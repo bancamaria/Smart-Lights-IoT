@@ -42,6 +42,7 @@ namespace smartlamp{
 
 using namespace smartlamp;
 
+
 bool SmartLamp::addSoundPattern(const string &regexPattern, ACTION action) {
     ParametrizedAction parametrizedAction;
     parametrizedAction.actionType = action;
@@ -133,6 +134,21 @@ int SmartLamp::getBuzzerStatus() {
 
 
 
+void SmartLamp::setBulbStatus(const int &status) {
+    bulbStatus =  status;
+}
+
+int SmartLamp::getBulbStatus() {
+    return bulbStatus;
+}
+
+void SmartLamp::setBulbIntensity(const int &lightValue) {
+    lightIntensity = lightValue;
+}
+
+int SmartLamp::getBulbIntensity() {
+    return lightIntensity;
+}
 
 
 
