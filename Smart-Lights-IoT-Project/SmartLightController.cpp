@@ -33,10 +33,9 @@ void SmartLightController::setupRoutes() {
     /*Here we will post messages that will simulate the sound "recorded" by the smart lamp*/
     Routes::Get(router, "/microphone/settings", Routes::bind(&SmartLightController::getMicrophoneSettings, this));
     Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
-
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
-
+    Routes::Get(router,"/microphone", Routes::bind(&SmartLightController::onSoundRecorded,this));
 }
 /*
 void SmartLightController::(){
@@ -64,7 +63,7 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
     /*
      * Parse the parameters from the url
      * */
-    cout<<request.body();
+
     if(request.query().has("sensitivity")){
         int val = std::stoi(request.query().get("sensitivity").getOrElse("0"));
         smartLamp.setMicSensitivity(val);
@@ -92,6 +91,17 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
     }
     /*Up to this point, the endpoint is  valid /patterns/newPatterns=X&mapsTo=Z.
     * Will need to check further options depending on action specified in mapsTo */
+    if(soundMapping == "TURN_ON_LIGHT" || soundMapping == "TURN_OFF_LIGHT"){
+        auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
+        if(succ) {
+            json sendBack;
+            sendBack["patterns"] = smartLamp.getSoundPatterns();
+            response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+            response.send(Http::Code::Ok, sendBack.dump());
+            return;
+        }
+
+    }
     if(soundMapping == "CHANGE_COLOR"){
         /*Check if the requestParam 'color' is present*/
         auto isValid = isValidRequestParam("color",request, response);
@@ -111,7 +121,7 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
     if(soundMapping == "START_COLOR_PATTERN"){
         /*
         * Will need to check further for validity of 'colorPattern'
-        * TODO: create a function that checks and sends response for valid param
+        *
         * */
         auto isValid = isValidRequestParam("colorPattern",request, response);
         if(isValid.first){
@@ -124,9 +134,10 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
                 response.send(Http::Code::Ok, sendBack.dump());
                 return;
             }
-            response.send(Http::Code::Internal_Server_Error, "Could not insert" + newPattern);
         }
     }
+    /*If none of the above is true, then it must be a 500.*/
+    response.send(Http::Code::Internal_Server_Error, "Could not map " + newPattern + " to " + soundMapping);
 }
 
 void SmartLightController::getRegisteredPatterns(const Rest::Request &request, Http::ResponseWriter response) {
@@ -138,6 +149,18 @@ void SmartLightController::getRegisteredPatterns(const Rest::Request &request, H
     response.send(Http::Code::Ok, sendBack.dump(3));
 }
 
+
+void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::ResponseWriter response) {
+    auto isValid = isValidRequestParam("record",request, response);
+    if(!isValid.first)
+        return;
+    string recordedSound = isValid.second;
+    smartlamp::light::LightState currentState = smartLamp.onSoundRecorded(recordedSound);
+    json j;
+    j["lightState"] = currentState;
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok, j.dump());
+}
 
 std::pair<bool, std::string> SmartLightController::isValidRequestParam(const std::string& paramName, const Rest::Request &request,
                                                                        Http::ResponseWriter& response ) {
@@ -152,3 +175,4 @@ std::pair<bool, std::string> SmartLightController::isValidRequestParam(const std
     }
     return {true, paramValue};
 }
+

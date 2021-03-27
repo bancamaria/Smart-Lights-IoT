@@ -52,6 +52,9 @@ public:
     void registerPattern(const Rest::Request& request, Http::ResponseWriter response);
     void getRegisteredPatterns(const Rest::Request& request, Http::ResponseWriter response);
 
+    /*GET: http://localhost:port/microphone?recorded=X*/
+    void onSoundRecorded(const Rest::Request& request, Http::ResponseWriter response);
+
 private:
     using Lock = std::mutex;
     using Guard = std::lock_guard<Lock>;

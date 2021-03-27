@@ -20,21 +20,27 @@ namespace smartlamp{
         void to_json(json& j, const LightState& p) {
             j = json{{"intensity", p.intensity},
                      {"color", p.color},
-                     {"colorPattern",p.colorPattern}};
+                     {"colorPattern",p.colorPattern},
+                     {"isOn",p.isOn}};
         }
 
         void from_json(const json& j, LightState& p) {
             j.at("intensity").get_to(p.intensity);
             j.at("colorPattern").get_to(p.colorPattern);
             j.at("color").get_to(p.color);
+            j.at("isOn").get_to(p.isOn);
+
         }
         const std::string NONE_COLOR_PATTERN = "NONE";
+        const std::string DEFAULT_COLOR = "WHITE";
+        const int DEFAULT_INTENSITY = 5;
+        const int MIN_INTENSITY = 1;
+        const int MAX_INTENSITY = 10;
+
     }
 };
 
 using namespace smartlamp;
-
-
 
 bool SmartLamp::addSoundPattern(const string &regexPattern, ACTION action) {
     ParametrizedAction parametrizedAction;
@@ -80,7 +86,40 @@ unordered_map<std::string, smartlamp::ParametrizedAction> SmartLamp::getSoundPat
 }
 
 light::LightState SmartLamp::onSoundRecorded(const string &soundPattern) {
+    auto it = soundPatternsMapping.find(soundPattern);
+    /*
+     * If the soundPattern is not known, we must ignore it, since it is just 'noise' so no new action should be taken
+     * */
+    if( it == soundPatternsMapping.end())
+        return currentState;
 
+    switch (it->second.actionType) {
+        case ACTION::TURN_ON_LIGHT: {
+            currentState.isOn = true;
+            currentState.color = light::DEFAULT_COLOR;
+            currentState.intensity = 5;
+            currentState.colorPattern = light::NONE_COLOR_PATTERN;
+            break;
+        }
+        case ACTION::TURN_OFF_LIGHT: {
+            currentState.isOn = false;
+            break;
+        }
+        case ACTION::CHANGE_COLOR: {
+            currentState.isOn = true;
+            currentState.colorPattern = light::NONE_COLOR_PATTERN;
+            currentState.color = it->second.actionParam;
+            break;
+        }
+
+        case ACTION::START_COLOR_PATTERN: {
+            currentState.isOn = true;
+            currentState.color = light::DEFAULT_COLOR;
+            currentState.colorPattern = it->second.actionParam;
+            break;
+        }
+    }
+        return currentState;
 }
 
 

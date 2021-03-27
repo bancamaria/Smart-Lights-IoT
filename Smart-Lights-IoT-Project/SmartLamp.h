@@ -36,14 +36,20 @@ namespace smartlamp{
     extern const std::string EMPTY_PARAM;
 
     namespace light{
+        extern const std::string NONE_COLOR_PATTERN;
+        extern const std::string DEFAULT_COLOR;
+        extern const int DEFAULT_INTENSITY;
+        extern const int MIN_INTENSITY;
+        extern const int MAX_INTENSITY;
+
         struct LightState{
-            int intensity;
-            std::string colorPattern;
-            std::string color;
+            int intensity = DEFAULT_INTENSITY ;
+            std::string colorPattern = NONE_COLOR_PATTERN;
+            std::string color = DEFAULT_COLOR;
+            bool isOn = false;
         };
         void to_json(json& j, const LightState& p);
         void from_json(const json& j, LightState& p);
-        extern const std::string NONE_COLOR_PATTERN;
     }
 
 };
@@ -81,6 +87,7 @@ private:
      * where the key is the pattern, e.g. '1000101011' and the value is the possible ACTION. */
     std::unordered_map<std::string, smartlamp::ParametrizedAction> soundPatternsMapping;
     std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
+    smartlamp::light::LightState currentState;
     int micSensitivity;
 
 };
