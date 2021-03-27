@@ -41,6 +41,9 @@ void SmartLightController::setupRoutes() {
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
 
+
+    Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
+    Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
 }
 /*
 void SmartLightController::(){
@@ -121,6 +124,25 @@ void SmartLightController::getRegisteredPatterns(const Rest::Request &request, H
 
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, sendBack.dump(3));
+}
+
+
+void SmartLightController::getBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    json result;
+    result["intensity"] = smartLamp.getBulbIntensity();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok,result.dump(3));
+}
+
+void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    cout<<request.body();
+    if(request.query().has("status") && request.query().has("intensity")) {
+        int valStatus = std::stoi(request.query().get("status").getOrElse("0"));
+        smartLamp.setBulbStatus(valStatus);
+        int valIntensity = std::stoi(request.query().get("intensity").getOrElse("0"));
+        smartLamp.setBulbIntensity(valIntensity);
+    }
+    // something more to add
 }
 
 

@@ -12,6 +12,7 @@ std::unordered_map<std::string,ACTION> SmartLamp::getSoundPatterns() {
     return soundPatterns;
 }
 
+
 bool SmartLamp::addSoundPattern(const string &regexPattern, ACTION action) {
     auto result = soundPatterns.insert({regexPattern, action});
     return result.second;
@@ -34,6 +35,24 @@ void SmartLamp::setMicSensitivity(const int &sensitivity) {
 
 bool SmartLamp::hasMapping(const string &mapping) {
     return possibleActions.find(mapping) != possibleActions.end();
+}
+
+
+
+void SmartLamp::setBulbStatus(const int &status) {
+    bulbStatus =  status;
+}
+
+int SmartLamp::getBulbStatus() {
+    return bulbStatus;
+}
+
+void SmartLamp::setBulbIntensity(const int &lightValue) {
+    lightIntensity = lightValue;
+}
+
+int SmartLamp::getBulbIntensity() {
+    return lightIntensity;
 }
 
 
