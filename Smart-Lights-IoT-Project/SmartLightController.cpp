@@ -33,6 +33,9 @@ void SmartLightController::setupRoutes() {
     /*Here we will post messages that will simulate the sound "recorded" by the smart lamp*/
     Routes::Get(router, "/microphone/settings", Routes::bind(&SmartLightController::getMicrophoneSettings, this));
     Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
+    Routes::Get(router, "/buzzer/settings", Routes::bind(&SmartLightController::getBuzzerSettings, this));
+    Routes::Post(router, "/buzzer/settings", Routes::bind(&SmartLightController::setBuzzerSettings, this));
+
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
     Routes::Get(router,"/microphone", Routes::bind(&SmartLightController::onSoundRecorded,this));
@@ -68,10 +71,25 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
         int val = std::stoi(request.query().get("sensitivity").getOrElse("0"));
         smartLamp.setMicSensitivity(val);
     }
-
-
 }
 
+void SmartLightController::getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response) {
+    json result;
+    result["status"] = smartLamp.getMicSensitivity();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok,result.dump(3));
+}
+
+void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    /*
+     * Parse the parameters from the url
+     * */
+
+    if(request.query().has("status")){
+        int val = std::stoi(request.query().get("status").getOrElse("0"));
+        smartLamp.setMicSensitivity(val);
+    }
+}
 
 void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {
 

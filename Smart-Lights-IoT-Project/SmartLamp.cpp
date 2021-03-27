@@ -122,6 +122,14 @@ light::LightState SmartLamp::onSoundRecorded(const string &soundPattern) {
         return currentState;
 }
 
+void SmartLamp::setBuzzerStatus(const int &status) {
+    buzzerStatus = status;
+}
+
+int SmartLamp::getBuzzerStatus() {
+    return buzzerStatus;
+}
+
 
 
 

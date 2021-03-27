@@ -4,6 +4,9 @@
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/json-src" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/rapidjson" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/rapidjson/thirdparty/gtest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/include/rapidjson" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/include/rapidjson/thirdparty/gtest" vcs="Git" />
   </component>
