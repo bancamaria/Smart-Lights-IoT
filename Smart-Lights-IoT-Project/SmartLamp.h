@@ -14,13 +14,16 @@ using namespace nlohmann;
 
 namespace smartlamp{
 
-    enum class ACTION{
+    enum ACTION{
         TURN_ON_LIGHT,
         TURN_OFF_LIGHT,
         CHANGE_COLOR,
-        START_COLOR_PATTERN
+        START_COLOR_PATTERN,
+        TURN_ON_BUZZER,
+        TURN_OFF_BUZZER
     };
-    enum class MIC_CONFIG{
+
+    enum MIC_CONFIG{
         SENSITIVITY,
         PATTERNS
     };
@@ -30,6 +33,9 @@ namespace smartlamp{
         std::string actionParam;
     };
 
+    enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
+        STATUS,
+    };
 
     void to_json(json& j, const ParametrizedAction& p);
     void from_json(const json& j, ParametrizedAction& p);
@@ -66,6 +72,9 @@ public:
         possibleActions.insert(std::make_pair("CHANGE_COLOR",smartlamp::ACTION::CHANGE_COLOR));
         possibleActions.insert(std::make_pair("START_COLOR_PATTERN",smartlamp::ACTION::START_COLOR_PATTERN));
 
+        possibleActions.insert(std::make_pair("TURN_ON_BUZZER",smartlamp::ACTION::TURN_ON_LIGHT));
+        possibleActions.insert(std::make_pair("TURN_OFF_BUZZER",smartlamp::ACTION::TURN_OFF_LIGHT));
+
     };
 
     bool hasMapping(const std::string &mapping);
@@ -76,6 +85,10 @@ public:
     bool addSoundPattern(const std::string &regexPattern, smartlamp::ACTION action);
     bool addSoundPattern(const std::string &regexPattern, const string& action);
     bool addSoundPattern(const std::string &regexPattern, const string& action, const string&optionValue);
+
+    void setBuzzerStatus(const int &status);
+    int getBuzzerStatus();
+
 
     smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
 
@@ -89,7 +102,7 @@ private:
     std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
     smartlamp::light::LightState currentState;
     int micSensitivity;
-
+    int buzzerStatus;
 };
 
 
