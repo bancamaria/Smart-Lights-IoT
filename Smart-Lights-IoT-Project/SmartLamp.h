@@ -5,46 +5,66 @@
 #ifndef SMART_LIGHTS_IOT_PROJECT_SMARTLAMP_H
 #define SMART_LIGHTS_IOT_PROJECT_SMARTLAMP_H
 
-
-#include "Buzzer.h"
-#include "Lights.h"
 #include "pistache/http.h"
+#include "nlohmann/json.hpp"
 
 using namespace Pistache;
 using namespace std;
+using namespace nlohmann;
 
-enum class ACTION{
-    TURN_ON_LIGHT,
-    TURN_OFF_LIGHT,
-    CHANGE_COLOR,
-    START_COLOR_PATTERN,
-    CHANGE_INTENSITY
+namespace smartlamp{
+
+    enum class ACTION{
+        TURN_ON_LIGHT,
+        TURN_OFF_LIGHT,
+        CHANGE_COLOR,
+        START_COLOR_PATTERN
+    };
+    enum class MIC_CONFIG{
+        SENSITIVITY,
+        PATTERNS
+    };
+
+    struct ParametrizedAction{
+        ACTION actionType;
+        std::string actionParam;
+    };
+
+
+    void to_json(json& j, const ParametrizedAction& p);
+    void from_json(const json& j, ParametrizedAction& p);
+    extern const std::string EMPTY_PARAM;
+
+    namespace light{
+        extern const std::string NONE_COLOR_PATTERN;
+        extern const std::string DEFAULT_COLOR;
+        extern const int DEFAULT_INTENSITY;
+        extern const int MIN_INTENSITY;
+        extern const int MAX_INTENSITY;
+
+        struct LightState{
+            int intensity = DEFAULT_INTENSITY ;
+            std::string colorPattern = NONE_COLOR_PATTERN;
+            std::string color = DEFAULT_COLOR;
+            bool isOn = false;
+        };
+        void to_json(json& j, const LightState& p);
+        void from_json(const json& j, LightState& p);
+    }
+
 };
 
-enum class MIC_CONFIG{
-    SENSITIVITY,
-    PATTERNS
-};
-
-
-enum class LIGHT_INTENSITY {
-    IS_ON,
-    LIGHT_VALUE
-};
-
-
-typedef std::pair<std::string,int> color_pattern_member;
 
 class SmartLamp {
 
 public:
-    explicit SmartLamp():buzzer(), lights(){
-        possibleActions.insert(std::make_pair("TURN_ON_LIGHT",ACTION::TURN_ON_LIGHT));
-        possibleActions.insert(std::make_pair("TURN_OFF_LIGHT",ACTION::TURN_OFF_LIGHT));
-        possibleActions.insert(std::make_pair("CHANGE_COLOR",ACTION::CHANGE_COLOR));
-        possibleActions.insert(std::make_pair("START_COLOR_PATTERN",ACTION::START_COLOR_PATTERN));
 
-        possibleActions.insert(std::make_pair("CHANGE_INTENSITY", ACTION::CHANGE_INTENSITY));
+
+    explicit SmartLamp(){
+        possibleActions.insert(std::make_pair("TURN_ON_LIGHT",smartlamp::ACTION::TURN_ON_LIGHT));
+        possibleActions.insert(std::make_pair("TURN_OFF_LIGHT",smartlamp::ACTION::TURN_OFF_LIGHT));
+        possibleActions.insert(std::make_pair("CHANGE_COLOR",smartlamp::ACTION::CHANGE_COLOR));
+        possibleActions.insert(std::make_pair("START_COLOR_PATTERN",smartlamp::ACTION::START_COLOR_PATTERN));
 
     };
 
@@ -52,30 +72,23 @@ public:
     void setMicSensitivity(const int &sensititvity);
     int getMicSensitivity();
 
-    void setBulbStatus(const int &status);
-    int getBulbStatus();
-    void setBulbIntensity(const int &lightValue);
-    int getBulbIntensity();
-
-    std::unordered_map<std::string,ACTION> getSoundPatterns();
-    bool addSoundPattern(const std::string &regexPattern, ACTION action);
+    std::unordered_map<std::string,smartlamp::ParametrizedAction> getSoundPatterns();
+    bool addSoundPattern(const std::string &regexPattern, smartlamp::ACTION action);
     bool addSoundPattern(const std::string &regexPattern, const string& action);
+    bool addSoundPattern(const std::string &regexPattern, const string& action, const string&optionValue);
 
-    void on_sound_record();
-
+    smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
 
 
 private:
-    Buzzer buzzer;
-    Lights lights;
-
     /*Members that can adjust the microphone */
-    std::unordered_map<std::string,ACTION> soundPatterns;
-    std::unordered_map<std::string,std::vector<color_pattern_member>> colorPatterns;
-    std::unordered_map<std::string,ACTION> possibleActions;
+    /*
+     * All the recorded sound patterns that, when detected, will result in a state change of the lamp
+     * where the key is the pattern, e.g. '1000101011' and the value is the possible ACTION. */
+    std::unordered_map<std::string, smartlamp::ParametrizedAction> soundPatternsMapping;
+    std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
+    smartlamp::light::LightState currentState;
     int micSensitivity;
-    int lightIntensity;
-    bool bulbStatus;
 
 };
 

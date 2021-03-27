@@ -1,5 +1,4 @@
 #include <pistache/endpoint.h>
-#include <signal.h>
 #include "SmartLightController.h"
 using namespace Pistache;
 using namespace std;
@@ -16,6 +15,9 @@ int main(int argc, char *argv[]) {
     }
 
 //    // Set a port on which your server to communicate
+
+
+
     Port port(9080);
 
 
