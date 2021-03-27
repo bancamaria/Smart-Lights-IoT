@@ -90,7 +90,7 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
 
     if(request.query().has("status")){
         int val = std::stoi(request.query().get("status").getOrElse("0"));
-        smartLamp.setMicSensitivity(val);
+        smartLamp.setBuzzerStatus(val);
     }
 }
 

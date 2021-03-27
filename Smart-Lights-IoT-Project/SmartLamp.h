@@ -30,7 +30,7 @@ namespace smartlamp{
     };
 
     enum BULB_CONFIG {
-        STATUS,
+        BULB_STATUS,
         INTENSITY
     };
 
@@ -40,7 +40,7 @@ namespace smartlamp{
     };
 
     enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
-        STATUS,
+        BUZZER_STATUS,
     };
 
     void to_json(json& j, const ParametrizedAction& p);

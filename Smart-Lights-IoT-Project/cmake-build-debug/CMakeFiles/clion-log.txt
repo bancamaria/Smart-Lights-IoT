@@ -1,4 +1,0 @@
-/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/mnt/c/Users/asus/Desktop/Anul 3/INGINERIA PROGRAMARII/Smart-Lights-IoT/Smart-Lights-IoT-Project"
--- Configuring done
--- Generating done
--- Build files have been written to: /mnt/c/Users/asus/Desktop/Anul 3/INGINERIA PROGRAMARII/Smart-Lights-IoT/Smart-Lights-IoT-Project/cmake-build-debug

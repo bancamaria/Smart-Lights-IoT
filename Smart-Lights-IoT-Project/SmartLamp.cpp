@@ -150,23 +150,5 @@ int SmartLamp::getBulbIntensity() {
     return lightIntensity;
 }
 
-void SmartLamp::setBulbStatus(const int &status) {
-    bulbStatus =  status;
-}
-
-int SmartLamp::getBulbStatus() {
-    return bulbStatus;
-}
-
-void SmartLamp::setBulbIntensity(const int &lightValue) {
-    lightIntensity = lightValue;
-}
-
-int SmartLamp::getBulbIntensity() {
-    return lightIntensity;
-}
-
-
-
 
 
