@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Smart-Lights-IoT-Project/cmake-build-debug/_deps/json-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/third-party/googletest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/third-party/rapidjson" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Smart-Lights-IoT-Project/cmake-build-debug/_deps/pistache-src/third-party/rapidjson/thirdparty/gtest" vcs="Git" />
+  </component>
+</project>

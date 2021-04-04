@@ -165,6 +165,19 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
         }
 
     }
+
+    if(soundMapping == "TURN_ON_BUZZER" || soundMapping == "TURN_OFF_BUZZER"){
+        auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
+        if(succ) {
+            json sendBack;
+            sendBack["patterns"] = smartLamp.getSoundPatterns();
+            response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+            response.send(Http::Code::Ok, sendBack.dump());
+            return;
+        }
+
+    }
+
     if(soundMapping == "CHANGE_COLOR"){
         /*Check if the requestParam 'color' is present*/
         auto isValid = isValidRequestParam("color",request, response);
@@ -218,9 +231,15 @@ void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::R
     if(!isValid.first)
         return;
     string recordedSound = isValid.second;
-    smartlamp::light::LightState currentState = smartLamp.onSoundRecorded(recordedSound);
+
+    pair<smartlamp::light::LightState, smartlamp::buzzer::BuzzerState> lampState = smartLamp.onSoundRecorded(recordedSound);
+
+    smartlamp::light::LightState lightState = lampState.first;
+    smartlamp::buzzer::BuzzerState buzzerState = lampState.second;
+
     json j;
-    j["lightState"] = currentState;
+    j["lightState"] = lightState;
+    j["buzzerState"] = buzzerState;
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, j.dump());
 }
