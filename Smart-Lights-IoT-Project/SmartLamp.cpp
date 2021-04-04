@@ -21,14 +21,14 @@ namespace smartlamp{
             j = json{{"intensity", p.intensity},
                      {"color", p.color},
                      {"colorPattern",p.colorPattern},
-                     {"isOn",p.isOn}};
+                     {"status",p.isOn}};
         }
 
         void from_json(const json& j, LightState& p) {
             j.at("intensity").get_to(p.intensity);
             j.at("colorPattern").get_to(p.colorPattern);
             j.at("color").get_to(p.color);
-            j.at("isOn").get_to(p.isOn);
+            j.at("status").get_to(p.isOn);
 
         }
         const std::string NONE_COLOR_PATTERN = "NONE";
@@ -38,6 +38,19 @@ namespace smartlamp{
         const int MAX_INTENSITY = 10;
 
     }
+
+    namespace buzzer{
+        void to_json(json &j, const buzzer::BuzzerState &p) {
+            j = json{{"status", p.status},
+                     {"snooze_time", p.snooze_time}};
+        }
+
+        void from_json(const json &j, buzzer::BuzzerState &p) {
+            j.at("status").get_to(p.status);
+            j.at("snooze_time").get_to(p.snooze_time);
+        }
+    }
+
 };
 
 using namespace smartlamp;
@@ -57,7 +70,6 @@ bool SmartLamp::addSoundPattern(const string &regexPattern, const string &action
     auto result = soundPatternsMapping.insert(std::make_pair(regexPattern, parametrizedAction));
     return result.second;
 }
-
 
 int SmartLamp::getMicSensitivity() {
     return micSensitivity;
@@ -86,41 +98,63 @@ unordered_map<std::string, smartlamp::ParametrizedAction> SmartLamp::getSoundPat
     return soundPatternsMapping;
 }
 
-light::LightState SmartLamp::onSoundRecorded(const string &soundPattern) {
+pair<light::LightState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const string &soundPattern) {
     auto it = soundPatternsMapping.find(soundPattern);
     /*
      * If the soundPattern is not known, we must ignore it, since it is just 'noise' so no new action should be taken
      * */
     if( it == soundPatternsMapping.end())
-        return currentState;
+        return make_pair(currentLightState, currentBuzzerState);
 
     switch (it->second.actionType) {
         case ACTION::TURN_ON_LIGHT: {
-            currentState.isOn = true;
-            currentState.color = light::DEFAULT_COLOR;
-            currentState.intensity = 5;
-            currentState.colorPattern = light::NONE_COLOR_PATTERN;
+            currentLightState.isOn = true;
+            currentLightState.color = light::DEFAULT_COLOR;
+            currentLightState.intensity = 5;
+            currentLightState.colorPattern = light::NONE_COLOR_PATTERN;
             break;
         }
         case ACTION::TURN_OFF_LIGHT: {
-            currentState.isOn = false;
+            currentLightState.isOn = false;
             break;
         }
         case ACTION::CHANGE_COLOR: {
-            currentState.isOn = true;
-            currentState.colorPattern = light::NONE_COLOR_PATTERN;
-            currentState.color = it->second.actionParam;
+            currentLightState.isOn = true;
+            currentLightState.colorPattern = light::NONE_COLOR_PATTERN;
+            currentLightState.color = it->second.actionParam;
             break;
         }
 
         case ACTION::START_COLOR_PATTERN: {
-            currentState.isOn = true;
-            currentState.color = light::DEFAULT_COLOR;
-            currentState.colorPattern = it->second.actionParam;
+            currentLightState.isOn = true;
+            currentLightState.color = light::DEFAULT_COLOR;
+            currentLightState.colorPattern = it->second.actionParam;
+            break;
+        }
+
+        case ACTION::TURN_ON_BUZZER: {
+            currentBuzzerState.status = true;
+
+            struct tm when = {0};
+
+            when.tm_hour = 7;
+            when.tm_min = 00;
+            when.tm_sec = 00;
+
+            time_t converted;
+            converted = mktime(&when);
+
+            currentBuzzerState.snooze_time = converted;
+
+            break;
+        }
+
+        case ACTION::TURN_OFF_BUZZER: {
+            currentBuzzerState.status = false;
             break;
         }
     }
-        return currentState;
+        return make_pair(currentLightState, currentBuzzerState); // what we should do here ?
 }
 
 void SmartLamp::setBuzzerStatus(const int &status) {
@@ -130,9 +164,6 @@ void SmartLamp::setBuzzerStatus(const int &status) {
 int SmartLamp::getBuzzerStatus() {
     return buzzerStatus;
 }
-
-
-
 
 void SmartLamp::setBulbStatus(const int &status) {
     bulbStatus =  status;
@@ -149,6 +180,11 @@ void SmartLamp::setBulbIntensity(const int &lightValue) {
 int SmartLamp::getBulbIntensity() {
     return lightIntensity;
 }
+
+
+
+
+
 
 
 
