@@ -161,6 +161,16 @@ void SmartLamp::setBuzzerStatus(const int &status) {
     buzzerStatus = status;
 }
 
+void SmartLamp::setBuzzerSnoozeTime(const time_t &snooze_time) {
+    buzzerSnoozeTime = snooze_time;
+}
+
+
+time_t SmartLamp::getBuzzerSnoozeTime() {
+    return buzzerSnoozeTime;
+}
+
+
 int SmartLamp::getBuzzerStatus() {
     return buzzerStatus;
 }
@@ -188,6 +198,8 @@ int SmartLamp::getColor() {
 void SmartLamp::setColor(const int &color) {
     bulbColor = color;
 }
+
+
 
 
 

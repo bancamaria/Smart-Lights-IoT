@@ -111,19 +111,18 @@ public:
     void setBuzzerStatus(const int &status);
     int getBuzzerStatus();
 
+    void setBuzzerSnoozeTime(const time_t &snooze_time);
+    time_t getBuzzerSnoozeTime();
+
     void setBulbStatus(const int &status);
     int getBulbStatus();
     void setBulbIntensity(const int &lightValue);
     int getBulbIntensity();
 
-<<<<<<< HEAD
     void setColor(const int &color);
     int getColor();
 
-    smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
-=======
     pair<smartlamp::light::LightState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
->>>>>>> main
 
 
 private:
@@ -140,6 +139,7 @@ private:
 
     int micSensitivity;
     int buzzerStatus;
+    time_t buzzerSnoozeTime;
     int bulbStatus;
     int lightIntensity;
     int bulbColor;

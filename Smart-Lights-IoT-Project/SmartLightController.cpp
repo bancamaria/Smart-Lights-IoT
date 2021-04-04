@@ -83,7 +83,8 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
 
 void SmartLightController::getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response) {
     json result;
-    result["status"] = smartLamp.getMicSensitivity();
+    result["status"] = smartLamp.getBuzzerStatus();
+    result["snooze_timer"] = smartLamp.getBuzzerSnoozeTime();
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok,result.dump(3));
 }
@@ -96,6 +97,24 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
     if(request.query().has("status")){
         int val = std::stoi(request.query().get("status").getOrElse("0"));
         smartLamp.setBuzzerStatus(val);
+    }
+    if(request.query().has("snooze_timer")){
+        string val = request.query().get("snooze_timer").getOrElse("0");
+
+        time_t snooze_time;
+        int  hh, mm, ss;
+        struct tm whenStart;
+        const char *zStart = val.c_str();
+
+        sscanf(zStart, "%d:%d:%d", &hh, &mm, &ss);
+        whenStart.tm_hour = hh;
+        whenStart.tm_min = mm;
+        whenStart.tm_sec = ss;
+        whenStart.tm_isdst = -1;
+
+        snooze_time = mktime(&whenStart);
+
+        smartLamp.setBuzzerSnoozeTime(snooze_time);
     }
 }
 
