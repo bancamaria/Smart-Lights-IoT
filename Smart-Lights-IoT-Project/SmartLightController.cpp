@@ -37,6 +37,7 @@ void SmartLightController::setupRoutes() {
     Routes::Post(router, "/buzzer/settings", Routes::bind(&SmartLightController::setBuzzerSettings, this));
     Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
     Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
+    Routes::Get(router, "/bulb", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
 
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));

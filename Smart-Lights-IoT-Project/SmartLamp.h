@@ -43,6 +43,11 @@ namespace smartlamp{
         BUZZER_STATUS,
     };
 
+    enum COLOURS {
+        COLOUR0, COLOUR1, COLOUR2, COLOUR3, COLOUR4
+    };
+
+
     void to_json(json& j, const ParametrizedAction& p);
     void from_json(const json& j, ParametrizedAction& p);
     extern const std::string EMPTY_PARAM;
@@ -116,6 +121,8 @@ private:
     int buzzerStatus;
     int bulbStatus;
     int lightIntensity;
+    int brightness;
+    int fadeAmount;
 };
 
 
