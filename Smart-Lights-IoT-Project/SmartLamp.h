@@ -49,10 +49,6 @@ namespace smartlamp{
         std::string actionParam;
     };
 
-    enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
-        BUZZER_STATUS,
-    };
-
     enum COLOURS {
         COLOUR0, COLOUR1, COLOUR2, COLOUR3, COLOUR4
     };

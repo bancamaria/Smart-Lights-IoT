@@ -183,7 +183,7 @@ int SmartLamp::getBulbStatus() {
     return bulbStatus;
 }
 
-void SmartLamp::setBulbIntensity(const int &lightValue) {
+void SmartLamp::setBulbIntensity(const int &recordedBrightness) {
     lightIntensity = lightValue;
 
     if (brightness <= 0 || brightness >= 100)

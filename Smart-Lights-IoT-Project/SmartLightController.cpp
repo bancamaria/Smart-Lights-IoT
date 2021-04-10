@@ -278,3 +278,13 @@ std::pair<bool, std::string> SmartLightController::isValidRequestParam(const std
     return {true, paramValue};
 }
 
+void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Http::ResponseWriter response) {
+    auto isValid = isValidRequestParam("brightness",request, response);
+    if(!isValid.first)
+        return;
+    int recordedBrightness = std::stoi(isValid.second);
+
+    smartLamp.setBulbIntensity(recordedBrightness);
+
+}
+
