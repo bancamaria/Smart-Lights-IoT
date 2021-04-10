@@ -65,6 +65,10 @@ namespace smartlamp{
         extern const int MIN_INTENSITY;
         extern const int MAX_INTENSITY;
 
+        /*
+         * State describes the bulb
+         * To use whenever we make chganes to the bulb / lights
+         * */
         struct LightState {
             int intensity = DEFAULT_INTENSITY ;
             std::string colorPattern = NONE_COLOR_PATTERN;
@@ -139,6 +143,7 @@ private:
     std::unordered_map<std::string, smartlamp::ParametrizedAction> photorezistorPatternsMapping;
 
     std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
+    /*Change fields of this whenever working with the bulb*/
     smartlamp::light::LightState currentLightState;
     smartlamp::buzzer::BuzzerState currentBuzzerState;
 

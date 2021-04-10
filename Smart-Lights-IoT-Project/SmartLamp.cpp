@@ -184,37 +184,22 @@ int SmartLamp::getBulbStatus() {
 }
 
 void SmartLamp::setBulbIntensity(const int &recordedBrightness) {
+
     lightIntensity = lightValue;
-
-    if (brightness <= 0 || brightness >= 100)
-        fadeAmount = -fadeAmount;
-
-    switch (brightness) {
-        case morning:
-            if(brightness >= 5 && brightness <= 30)
-                while (lightsOn) 	// increase intensity gradually
+    if(recordedBrightness >= 5 && recordedBrightness <= 30)
+                if (lightsOn) 	// increase intensity gradually
                     COLOUR = COLOUR1; 	// dim white lights
-            brightness += fadeAmount;
-            break;
-        case afternoon:
-            if(brightness >= 60 && brightness <= 100)
+
+    if(recordedBrightness >= 60 && recordedBrightness <= 100)
                 while (lightsOn) 	// increase intensity gradually
-                    COLOUR = COLOUR2; 	// almost no white lights
-            brightness += fadeAmount;
-            break;
-        case evening:
-            if(brightness >= 30 && brightness <= 60)
+                    COLOUR = COLOUR2; 	// almost no white light
+    if(recordedBrightness >= 30 && recordedBrightness <= 60)
                 while (lightsOn) 	// increase intensity gradually
                     COLOUR = COLOUR3; 	// dim yellow lights
-            brightness += fadeAmount;
-            break;
-        case night:
-            if(brightness >= 0 && brightness <= 5)
+    if(recordedBrightness >= 0 && recordedBrightness <= 5)
                 while (lightsOn) 	// increase intensity gradually
                     COLOUR = COLOUR4; 	// colour-changing
-            brightness += fadeAmount;
-            break;
-        default: COLOUR = COLOUR0; // strong whie lights
+    COLOUR = COLOUR0; // strong whie lights
     }
 }
 
