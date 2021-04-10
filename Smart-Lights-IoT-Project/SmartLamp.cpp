@@ -17,14 +17,14 @@ namespace smartlamp{
 
     namespace light{
 
-        void to_json(json& j, const LightState& p) {
+        void to_json(json& j, const BulbState& p) {
             j = json{{"intensity", p.intensity},
                      {"color", p.color},
                      {"colorPattern",p.colorPattern},
                      {"status",p.isOn}};
         }
 
-        void from_json(const json& j, LightState& p) {
+        void from_json(const json& j, BulbState& p) {
             j.at("intensity").get_to(p.intensity);
             j.at("colorPattern").get_to(p.colorPattern);
             j.at("color").get_to(p.color);
@@ -98,37 +98,37 @@ unordered_map<std::string, smartlamp::ParametrizedAction> SmartLamp::getSoundPat
     return soundPatternsMapping;
 }
 
-pair<light::LightState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const string &soundPattern) {
+pair<light::BulbState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const string &soundPattern) {
     auto it = soundPatternsMapping.find(soundPattern);
     /*
      * If the soundPattern is not known, we must ignore it, since it is just 'noise' so no new action should be taken
      * */
     if( it == soundPatternsMapping.end())
-        return make_pair(currentLightState, currentBuzzerState);
+        return make_pair(currentBulbState, currentBuzzerState);
 
     switch (it->second.actionType) {
         case ACTION::TURN_ON_LIGHT: {
-            currentLightState.isOn = true;
-            currentLightState.color = light::DEFAULT_COLOR;
-            currentLightState.intensity = 5;
-            currentLightState.colorPattern = light::NONE_COLOR_PATTERN;
+            currentBulbState.isOn = true;
+            currentBulbState.color = light::DEFAULT_COLOR;
+            currentBulbState.intensity = 5;
+            currentBulbState.colorPattern = light::NONE_COLOR_PATTERN;
             break;
         }
         case ACTION::TURN_OFF_LIGHT: {
-            currentLightState.isOn = false;
+            currentBulbState.isOn = false;
             break;
         }
         case ACTION::CHANGE_COLOR: {
-            currentLightState.isOn = true;
-            currentLightState.colorPattern = light::NONE_COLOR_PATTERN;
-            currentLightState.color = it->second.actionParam;
+            currentBulbState.isOn = true;
+            currentBulbState.colorPattern = light::NONE_COLOR_PATTERN;
+            currentBulbState.color = it->second.actionParam;
             break;
         }
 
         case ACTION::START_COLOR_PATTERN: {
-            currentLightState.isOn = true;
-            currentLightState.color = light::DEFAULT_COLOR;
-            currentLightState.colorPattern = it->second.actionParam;
+            currentBulbState.isOn = true;
+            currentBulbState.color = light::DEFAULT_COLOR;
+            currentBulbState.colorPattern = it->second.actionParam;
             break;
         }
 
@@ -154,7 +154,7 @@ pair<light::LightState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const st
             break;
         }
     }
-        return make_pair(currentLightState, currentBuzzerState); // what we should do here ?
+        return make_pair(currentBulbState, currentBuzzerState); // what we should do here ?
 }
 
 void SmartLamp::setBuzzerStatus(const int &status) {
@@ -175,19 +175,19 @@ int SmartLamp::getBuzzerStatus() {
     return buzzerStatus;
 }
 
-void SmartLamp::setBulbStatus(const int &status) {
-    bulbStatus =  status;
+smartlamp::light::BulbState SmartLamp::getBulbState() {
+    return currentBulbState;
 }
 
-int SmartLamp::getBulbStatus() {
-    return bulbStatus;
-}
-
-void SmartLamp::setBulbIntensity(const int &recordedBrightness) {
-
+/*
+ * Modifies the currentBulbState.
+ * TODO D&A: Change Bulb intensity and bulb color and whatever else on brightness
+ * SKY IS THE LIMIT.*/
+void SmartLamp::onBrightnessRecorded(const int &recordedBrightness) {
+/*
     lightIntensity = lightValue;
     if(recordedBrightness >= 5 && recordedBrightness <= 30)
-                if (lightsOn) 	// increase intensity gradually
+                if (currentBulbState.isOn) 	// increase intensity gradually
                     COLOUR = COLOUR1; 	// dim white lights
 
     if(recordedBrightness >= 60 && recordedBrightness <= 100)
@@ -199,22 +199,9 @@ void SmartLamp::setBulbIntensity(const int &recordedBrightness) {
     if(recordedBrightness >= 0 && recordedBrightness <= 5)
                 while (lightsOn) 	// increase intensity gradually
                     COLOUR = COLOUR4; 	// colour-changing
-    COLOUR = COLOUR0; // strong whie lights
-    }
-}
+    COLOUR = COLOUR0; // strong whie lights*/
 
-int SmartLamp::getBulbIntensity() {
-    return lightIntensity;
 }
-
-int SmartLamp::getColor() {
-    return bulbColor;
-}
-
-void SmartLamp::setColor(const int &color) {
-    bulbColor = color;
-}
-
 
 
 
