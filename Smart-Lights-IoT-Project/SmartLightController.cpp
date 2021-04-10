@@ -244,7 +244,6 @@ void SmartLightController::getRegisteredPatterns(const Rest::Request &request, H
     response.send(Http::Code::Ok, sendBack.dump(3));
 }
 
-
 void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::ResponseWriter response) {
     auto isValid = isValidRequestParam("record",request, response);
     if(!isValid.first)
@@ -265,6 +264,7 @@ void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::R
 
 std::pair<bool, std::string> SmartLightController::isValidRequestParam(const std::string& paramName, const Rest::Request &request,
                                                                        Http::ResponseWriter& response ) {
+
     if (!request.query().has(paramName)) {
         response.send(Http::Code::Bad_Request, "Missing " + paramName + " request parameter.");
         return {false, nullptr};
