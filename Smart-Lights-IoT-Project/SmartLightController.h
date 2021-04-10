@@ -35,6 +35,7 @@ public:
     // When signaled server shuts down
     void stop();
 
+
     /*
      * Note: required to add a refference to ResponseWriter because passing by value is not allowed
      * (copy constructor is private for some reasone).*/
@@ -44,11 +45,10 @@ public:
     void getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
 
-    void getBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
-    void setBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
+    /*Return the current light state*/
+    void getBulbState(const Rest::Request& request, Http::ResponseWriter response);
 
-    void getColorSettings(const Rest::Request& request, Http::ResponseWriter response);
-    void setColorSettings(const Rest::Request& request, Http::ResponseWriter response);
+    void onBrightnessRecorded(const Rest::Request& request, Http::ResponseWriter response);
 
     /*
      * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
