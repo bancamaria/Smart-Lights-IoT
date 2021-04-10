@@ -39,9 +39,14 @@ void SmartLightController::setupRoutes() {
     Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
     Routes::Get(router, "/bulb", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
 
+    Routes::Get(router, "/color/settings", Routes::bind(&SmartLightController::getColorSettings, this));
+    Routes::Post(router, "/color/settings", Routes::bind(&SmartLightController::setColorSettings, this));
+
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
     Routes::Get(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
+
+
 }
 
 /*
@@ -79,7 +84,8 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
 
 void SmartLightController::getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response) {
     json result;
-    result["status"] = smartLamp.getMicSensitivity();
+    result["status"] = smartLamp.getBuzzerStatus();
+    result["snooze_timer"] = smartLamp.getBuzzerSnoozeTime();
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok,result.dump(3));
 }
@@ -92,6 +98,24 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
     if(request.query().has("status")){
         int val = std::stoi(request.query().get("status").getOrElse("0"));
         smartLamp.setBuzzerStatus(val);
+    }
+    if(request.query().has("snooze_timer")){
+        string val = request.query().get("snooze_timer").getOrElse("0");
+
+        time_t snooze_time;
+        int  hh, mm, ss;
+        struct tm whenStart;
+        const char *zStart = val.c_str();
+
+        sscanf(zStart, "%d:%d:%d", &hh, &mm, &ss);
+        whenStart.tm_hour = hh;
+        whenStart.tm_min = mm;
+        whenStart.tm_sec = ss;
+        whenStart.tm_isdst = -1;
+
+        snooze_time = mktime(&whenStart);
+
+        smartLamp.setBuzzerSnoozeTime(snooze_time);
     }
 }
 
@@ -109,6 +133,26 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         smartLamp.setBulbStatus(valStatus);
         int valIntensity = std::stoi(request.query().get("intensity").getOrElse("0"));
         smartLamp.setBulbIntensity(valIntensity);
+    }
+}
+
+void SmartLightController::getColorSettings(const Rest::Request &request, Http::ResponseWriter response) {
+    json result;
+    result["color"] = smartLamp.getColor();
+    response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Http::Code::Ok, result.dump(3));
+}
+
+void SmartLightController::setColorSettings(const Rest::Request &request, Http::ResponseWriter response ) {
+    /*
+     * Parse the parameters from the url
+     * */
+    cout<<request.body();
+    if (request.query().has("status") && request.query().has("color")) {
+        int valStatus = std::stoi(request.query().get("status").getOrElse("0"));
+        smartLamp.setBulbStatus(valStatus);
+        int valColor = std::stoi(request.query().get("color").getOrElse("0"));
+        smartLamp.setColor(valColor);
     }
 }
 
@@ -141,6 +185,19 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
         }
 
     }
+
+    if(soundMapping == "TURN_ON_BUZZER" || soundMapping == "TURN_OFF_BUZZER"){
+        auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
+        if(succ) {
+            json sendBack;
+            sendBack["patterns"] = smartLamp.getSoundPatterns();
+            response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+            response.send(Http::Code::Ok, sendBack.dump());
+            return;
+        }
+
+    }
+
     if(soundMapping == "CHANGE_COLOR"){
         /*Check if the requestParam 'color' is present*/
         auto isValid = isValidRequestParam("color",request, response);
@@ -194,9 +251,15 @@ void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::R
     if(!isValid.first)
         return;
     string recordedSound = isValid.second;
-    smartlamp::light::LightState currentState = smartLamp.onSoundRecorded(recordedSound);
+
+    pair<smartlamp::light::LightState, smartlamp::buzzer::BuzzerState> lampState = smartLamp.onSoundRecorded(recordedSound);
+
+    smartlamp::light::LightState lightState = lampState.first;
+    smartlamp::buzzer::BuzzerState buzzerState = lampState.second;
+
     json j;
-    j["lightState"] = currentState;
+    j["lightState"] = lightState;
+    j["buzzerState"] = buzzerState;
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, j.dump());
 }

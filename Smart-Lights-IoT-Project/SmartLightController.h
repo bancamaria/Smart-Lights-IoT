@@ -47,6 +47,9 @@ public:
     void getBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
 
+    void getColorSettings(const Rest::Request& request, Http::ResponseWriter response);
+    void setColorSettings(const Rest::Request& request, Http::ResponseWriter response);
+
     /*
      * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
      * or

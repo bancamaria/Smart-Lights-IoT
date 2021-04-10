@@ -29,9 +29,19 @@ namespace smartlamp{
         PATTERNS
     };
 
+    enum PHOTOREZISTOR_GONFIG {
+        PHOTOREZISTOR_SENSITIVITY,
+        PHOTOREZISTOR_PATTERNS
+    };
+
     enum BULB_CONFIG {
         BULB_STATUS,
         INTENSITY
+    };
+
+    enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
+        BUZZER_STATUS,
+        BUZZER_SNOOZE_TIME
     };
 
     struct ParametrizedAction{
@@ -59,7 +69,7 @@ namespace smartlamp{
         extern const int MIN_INTENSITY;
         extern const int MAX_INTENSITY;
 
-        struct LightState{
+        struct LightState {
             int intensity = DEFAULT_INTENSITY ;
             std::string colorPattern = NONE_COLOR_PATTERN;
             std::string color = DEFAULT_COLOR;
@@ -67,6 +77,15 @@ namespace smartlamp{
         };
         void to_json(json& j, const LightState& p);
         void from_json(const json& j, LightState& p);
+    }
+
+    namespace buzzer {
+        struct BuzzerState {
+            bool status = false;
+            time_t snooze_time = time(0); // current time
+        };
+        void to_json(json& j, const BuzzerState& p);
+        void from_json(const json& j, BuzzerState& p);
     }
 
 };
@@ -101,12 +120,18 @@ public:
     void setBuzzerStatus(const int &status);
     int getBuzzerStatus();
 
+    void setBuzzerSnoozeTime(const time_t &snooze_time);
+    time_t getBuzzerSnoozeTime();
+
     void setBulbStatus(const int &status);
     int getBulbStatus();
     void setBulbIntensity(const int &lightValue);
     int getBulbIntensity();
 
-    smartlamp::light::LightState onSoundRecorded(const std::string &soundPattern);
+    void setColor(const int &color);
+    int getColor();
+
+    pair<smartlamp::light::LightState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
 
 
 private:
@@ -115,14 +140,20 @@ private:
      * All the recorded sound patterns that, when detected, will result in a state change of the lamp
      * where the key is the pattern, e.g. '1000101011' and the value is the possible ACTION. */
     std::unordered_map<std::string, smartlamp::ParametrizedAction> soundPatternsMapping;
+    std::unordered_map<std::string, smartlamp::ParametrizedAction> photorezistorPatternsMapping;
+
     std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
-    smartlamp::light::LightState currentState;
+    smartlamp::light::LightState currentLightState;
+    smartlamp::buzzer::BuzzerState currentBuzzerState;
+
     int micSensitivity;
     int buzzerStatus;
+    time_t buzzerSnoozeTime;
     int bulbStatus;
     int lightIntensity;
     int brightness;
     int fadeAmount;
+    int bulbColor;
 };
 
 
