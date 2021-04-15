@@ -239,9 +239,10 @@ void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Ht
     if(!isValid.first)
         return;
     int recordedBrightness = std::stoi(isValid.second);
+    int detectPresence = std::stoi(isValid.second);
 
     /*TODO D&A: Complete inside SmartLamp.cpp*/
-    smartLamp.onBrightnessRecorded(recordedBrightness);
+    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
 
 }
 

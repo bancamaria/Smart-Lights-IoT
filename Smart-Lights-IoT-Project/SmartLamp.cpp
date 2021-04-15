@@ -21,7 +21,8 @@ namespace smartlamp{
             j = json{{"intensity", p.intensity},
                      {"color", p.color},
                      {"colorPattern",p.colorPattern},
-                     {"status",p.isOn}};
+                     {"status",p.isOn},
+                     {"presence",p.presence}};
         }
 
         void from_json(const json& j, BulbState& p) {
@@ -29,7 +30,7 @@ namespace smartlamp{
             j.at("colorPattern").get_to(p.colorPattern);
             j.at("color").get_to(p.color);
             j.at("status").get_to(p.isOn);
-
+            j.at("presence").get_to(p.presence);
         }
         const std::string NONE_COLOR_PATTERN = "NONE";
         const std::string DEFAULT_COLOR = "WHITE";
@@ -153,6 +154,7 @@ pair<light::BulbState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const str
             currentBuzzerState.status = false;
             break;
         }
+
     }
         return make_pair(currentBulbState, currentBuzzerState); // what we should do here ?
 }
@@ -182,25 +184,40 @@ smartlamp::light::BulbState SmartLamp::getBulbState() {
 /*
  * Modifies the currentBulbState.
  * TODO D&A: Change Bulb intensity and bulb color and whatever else on brightness
- * SKY IS THE LIMIT.*/
-void SmartLamp::onBrightnessRecorded(const int &recordedBrightness) {
-/*
-    lightIntensity = lightValue;
+ * SKY IS THE LIMIT.
+ */
+
+void SmartLamp::onBrightnessRecorded(const int&recordedBrightness, bool detectPresence) {
+    lightIntensity = 0;
+    lightValue = 100;
+
     if(recordedBrightness >= 5 && recordedBrightness <= 30)
-                if (currentBulbState.isOn) 	// increase intensity gradually
-                    COLOUR = COLOUR1; 	// dim white lights
-
+        if (detectPresence == true) {
+            currentBulbState.isOn = true;
+            currentBulbState.color = WHITE;
+            currentBulbState.presence = true;
+        }
     if(recordedBrightness >= 60 && recordedBrightness <= 100)
-                while (lightsOn) 	// increase intensity gradually
-                    COLOUR = COLOUR2; 	// almost no white light
-    if(recordedBrightness >= 30 && recordedBrightness <= 60)
-                while (lightsOn) 	// increase intensity gradually
-                    COLOUR = COLOUR3; 	// dim yellow lights
-    if(recordedBrightness >= 0 && recordedBrightness <= 5)
-                while (lightsOn) 	// increase intensity gradually
-                    COLOUR = COLOUR4; 	// colour-changing
-    COLOUR = COLOUR0; // strong whie lights*/
+        if (detectPresence == true) {
+            currentBulbState.isOn = true;
+            currentBulbState.color = BLUE;
+            currentBulbState.presence = true;
+            }
+    if(recordedBrightness >= 30 && recordedBrightness <= 60) {
+        if (detectPresence == true)
+            currentBulbState.isOn = true;
+            currentBulbState.color = YELLOW;
+            currentBulbState.presence = true;
+            }
+    if(recordedBrightness >= 0 && recordedBrightness <= 5) {
+        if (detectPresence == true)
+            currentBulbState.isOn = true;
+            currentBulbState.color = RED;
+            currentBulbState.presence = true;
+            }
 
+    while (lightIntensity <= lightValue) // increase intensity gradually
+        currentBulbState.intensity++;
 }
 
 

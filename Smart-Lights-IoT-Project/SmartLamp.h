@@ -50,7 +50,7 @@ namespace smartlamp{
     };
 
     enum COLOURS {
-        COLOUR0, COLOUR1, COLOUR2, COLOUR3, COLOUR4
+        WHITE, YELLOW, RED, BLUE
     };
 
 
@@ -74,6 +74,7 @@ namespace smartlamp{
             std::string colorPattern = NONE_COLOR_PATTERN;
             std::string color = DEFAULT_COLOR;
             bool isOn = false;
+            bool presence = false;
         };
         void to_json(json& j, const BulbState& p);
         void from_json(const json& j, BulbState& p);
@@ -106,10 +107,11 @@ public:
         possibleActions.insert(std::make_pair("TURN_OFF_BUZZER",smartlamp::ACTION::TURN_OFF_LIGHT));
 
         possibleActions.insert(std::make_pair("CHANGE_INTENSITY", smartlamp::ACTION::CHANGE_INTENSITY));
+
     };
 
     bool hasMapping(const std::string &mapping);
-    void setMicSensitivity(const int &sensititvity);
+    void setMicSensitivity(const int &sensitivity);
     int getMicSensitivity();
 
     std::unordered_map<std::string,smartlamp::ParametrizedAction> getSoundPatterns();
@@ -126,7 +128,7 @@ public:
     smartlamp::light::BulbState getBulbState();
 
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
-    void onBrightnessRecorded(const int&recordedBrightness);
+    void onBrightnessRecorded(const int&recordedBrightness, bool detectPresence);
 
 private:
     /*Members that can adjust the microphone */
@@ -150,7 +152,8 @@ private:
     int micSensitivity;
     int buzzerStatus;
     time_t buzzerSnoozeTime;
-
+    int lightIntensity;
+    int lightValue;
 };
 
 
