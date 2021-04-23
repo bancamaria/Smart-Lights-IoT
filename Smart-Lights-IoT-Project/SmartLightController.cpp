@@ -76,7 +76,11 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
      * */
 
     if(request.query().has("sensitivity")){
-        int val = std::stoi(request.query().get("sensitivity").getOrElse("0"));
+        optional<string> requestedValue = request.query().get("sensitivity");
+        if(requestedValue->empty()){
+            requestedValue.value() = "0";
+        }
+        int val = std::stoi(requestedValue.value());
         smartLamp.setMicSensitivity(val);
     }
 }
@@ -95,16 +99,16 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
      * */
 
     if(request.query().has("status")){
-        int val = std::stoi(request.query().get("status").getOrElse("0"));
+        int val = std::stoi(request.query().get("status").value());
         smartLamp.setBuzzerStatus(val);
     }
     if(request.query().has("snooze_timer")){
-        string val = request.query().get("snooze_timer").getOrElse("0");
+        optional<string> val = request.query().get("snooze_timer");
 
         time_t snooze_time;
         int  hh, mm, ss;
         struct tm whenStart;
-        const char *zStart = val.c_str();
+        const char *zStart = (*val).c_str();
 
         sscanf(zStart, "%d:%d:%d", &hh, &mm, &ss);
         whenStart.tm_hour = hh;
@@ -254,11 +258,11 @@ std::pair<bool, std::string> SmartLightController::isValidRequestParam(const std
         response.send(Http::Code::Bad_Request, "Missing " + paramName + " request parameter.");
         return {false, nullptr};
     }
-    std::string paramValue = request.query().get(paramName).getOrElse("");
-    if (paramValue.empty()) {
+    optional<string> paramValue = request.query().get(paramName);
+    if (paramValue->empty()) {
         response.send(Http::Code::Bad_Request, "Missing " + paramName + " request parameter value.");
         return {false, nullptr};
     }
-    return {true, paramValue};
+    return {true, *paramValue};
 }
 
