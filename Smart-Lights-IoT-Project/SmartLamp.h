@@ -150,8 +150,7 @@ private:
     smartlamp::buzzer::BuzzerState currentBuzzerState;
 
     int micSensitivity;
-    int buzzerStatus;
-    time_t buzzerSnoozeTime;
+    smartlamp::buzzer::BuzzerState buzzerState;
     int lightIntensity;
     int lightValue;
 };

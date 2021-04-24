@@ -160,21 +160,21 @@ pair<light::BulbState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const str
 }
 
 void SmartLamp::setBuzzerStatus(const int &status) {
-    buzzerStatus = status;
+    buzzerState.status = status;
 }
 
 void SmartLamp::setBuzzerSnoozeTime(const time_t &snooze_time) {
-    buzzerSnoozeTime = snooze_time;
+    buzzerState.snooze_time = snooze_time;
 }
 
 
 time_t SmartLamp::getBuzzerSnoozeTime() {
-    return buzzerSnoozeTime;
+    return buzzerState.snooze_time;
 }
 
 
 int SmartLamp::getBuzzerStatus() {
-    return buzzerStatus;
+    return buzzerState.status;
 }
 
 smartlamp::light::BulbState SmartLamp::getBulbState() {
