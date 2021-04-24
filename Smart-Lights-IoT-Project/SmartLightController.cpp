@@ -96,7 +96,6 @@ void SmartLightController::getBuzzerSettings(const Rest::Request& request, Http:
     timeinfo = localtime(&rawtime);
     strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
     std::string str(buffer);
-    cout<<buffer;
     result["snooze_timer"] = str;
 
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
@@ -150,18 +149,6 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
     /*Up to this point, the endpoint is  valid /patterns/newPatterns=X&mapsTo=Z.
     * Will need to check further options depending on action specified in mapsTo */
     if(soundMapping == "TURN_ON_LIGHT" || soundMapping == "TURN_OFF_LIGHT"){
-        auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
-        if(succ) {
-            json sendBack;
-            sendBack["patterns"] = smartLamp.getSoundPatterns();
-            response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
-            response.send(Http::Code::Ok, sendBack.dump());
-            return;
-        }
-
-    }
-
-    if(soundMapping == "TURN_ON_BUZZER" || soundMapping == "TURN_OFF_BUZZER"){
         auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
         if(succ) {
             json sendBack;

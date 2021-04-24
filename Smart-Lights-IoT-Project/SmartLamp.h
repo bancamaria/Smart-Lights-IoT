@@ -87,6 +87,7 @@ namespace smartlamp{
         };
         void to_json(json& j, const BuzzerState& p);
         void from_json(const json& j, BuzzerState& p);
+        string wake_up_time();
     }
 
 };

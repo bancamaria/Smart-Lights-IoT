@@ -50,6 +50,22 @@ namespace smartlamp{
             j.at("status").get_to(p.status);
             j.at("snooze_time").get_to(p.snooze_time);
         }
+
+        bool is_morning(){
+            time_t rawtime = time(0);
+            struct tm * timeinfo;
+            char buffer[80];
+            timeinfo = localtime(&rawtime);
+            strftime(buffer,sizeof(buffer),"%H:%M:%S",timeinfo);
+            int current_hour = (buffer[0] - '0') * 10  + (buffer[1] = '0');
+            int current_minutes = (buffer[3] - '0') * 10  + (buffer[4] = '0');
+            int current_seconds = (buffer[6] - '0') * 10  + (buffer[7] = '0');
+
+            if(current_hour == 7 && current_minutes == 30){
+                return true;
+            }
+            return false;
+        };
     }
 
 };
@@ -196,6 +212,11 @@ void SmartLamp::onBrightnessRecorded(const int&recordedBrightness, bool detectPr
             currentBulbState.isOn = true;
             currentBulbState.color = WHITE;
             currentBulbState.presence = true;
+
+            if(smartlamp::buzzer::is_morning()){ // turn on the buzzer
+                setBuzzerStatus(1);
+                setBuzzerSnoozeTime(time(0));
+            }
         }
     if(recordedBrightness >= 60 && recordedBrightness <= 100)
         if (detectPresence == true) {
