@@ -104,31 +104,22 @@ void SmartLightController::getBuzzerSettings(const Rest::Request& request, Http:
 }
 
 void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http::ResponseWriter response) {
-    /*
-     * Parse the parameters from the url
-     * */
-
     if(request.query().has("status")){
         int val = std::stoi(request.query().get("status").value());
         smartLamp.setBuzzerStatus(val);
     }
     if(request.query().has("snooze_timer")){
         optional<string> val = request.query().get("snooze_timer");
+        string value = val.value();
+        value.replace(0, 3, "");
+        value.replace(value.length() - 3, 3, "");
 
-        time_t snooze_time;
-        int  hh, mm, ss;
-        struct tm whenStart;
-        const char *zStart = (*val).c_str();
+        const char *time_details = value.c_str();
+        struct tm tm;
+        strptime(time_details, "%H:%M:%S", &tm);
+        time_t t = mktime(&tm);
 
-        sscanf(zStart, "%d:%d:%d", &hh, &mm, &ss);
-        whenStart.tm_hour = hh;
-        whenStart.tm_min = mm;
-        whenStart.tm_sec = ss;
-        whenStart.tm_isdst = -1;
-
-        snooze_time = mktime(&whenStart);
-
-        smartLamp.setBuzzerSnoozeTime(snooze_time);
+        smartLamp.setBuzzerSnoozeTime(t);
     }
 }
 
