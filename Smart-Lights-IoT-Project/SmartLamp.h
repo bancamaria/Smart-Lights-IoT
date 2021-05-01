@@ -105,6 +105,11 @@ public:
     void setBuzzerSnoozeTime(const time_t &snooze_time);
     time_t getBuzzerSnoozeTime() const;
 
+    string getBulbColor() const;
+    void setBulbColor(string color);
+    int getBulbIntensity() const;
+    void setBulbIntensity(int intensity);
+
     smartlamp::light::BulbState getBulbState();
 
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);

@@ -122,19 +122,32 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
 
 void SmartLightController::getBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
     json result;
-    // THIS IS WRONG , YOU SHOULD DO:
-    // result["bulbParameter"] = bulbParameterValue
-    // ex: result["color"] = getBulbColor; .....
-    result["bulbState"] = smartLamp.getBulbState();
+    result["color"] = smartLamp.getBulbColor();
+    result["intensity"] = smartLamp.getBulbIntensity();
 
-    // THIS REMAINS THE SAME
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, result.dump(3));
 }
 
 
 void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
-    // MUST BE DONE ! -> ANCA & DENISA
+    if (request.query().has("color")) {
+        optional<string> requestedValue = request.query().get("color");
+        if (requestedValue->empty()) {
+            requestedValue.value() = "WHITE";
+        }
+        string val = requestedValue.value();
+        smartLamp.setBulbColor(val);
+    }
+
+    if (request.query().has("intensity")) {
+        optional<string> requestedValue = request.query().get("intensity");
+        if (requestedValue->empty()) {
+            requestedValue.value() = "0";
+        }
+        int val = std::stoi(requestedValue.value());
+        smartLamp.setBulbIntensity(val);
+    }
 }
 
 void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {

@@ -179,6 +179,22 @@ smartlamp::light::BulbState SmartLamp::getBulbState() {
     return currentBulbState;
 }
 
+void SmartLamp::setBulbColor(string color) {
+    currentBulbState.color = color;
+}
+
+string SmartLamp::getBulbColor() const {
+    return currentBulbState.color;
+}
+
+void SmartLamp::setBulbIntensity(int intensity) {
+    currentBulbState.intensity = intensity;
+}
+
+int SmartLamp::getBulbIntensity() const {
+    return currentBulbState.intensity;
+}
+
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
