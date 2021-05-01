@@ -12,9 +12,9 @@ using namespace Pistache;
 using namespace std;
 using namespace nlohmann;
 
-namespace smartlamp{
+namespace smartlamp {
 
-    enum ACTION{
+    enum ACTION {
         TURN_ON_LIGHT,
         TURN_OFF_LIGHT,
         CHANGE_COLOR,
@@ -24,69 +24,52 @@ namespace smartlamp{
         CHANGE_INTENSITY
     };
 
-    enum MIC_CONFIG{
-        SENSITIVITY,
-        PATTERNS
+    enum COLORS {
+        WHITE, YELLOW, RED, BLUE
     };
 
-    enum PHOTOREZISTOR_GONFIG {
-        PHOTOREZISTOR_SENSITIVITY,
-        PHOTOREZISTOR_PATTERNS
-    };
-
-    enum BULB_CONFIG {
-        BULB_STATUS,
-        INTENSITY
-    };
-
-    enum BUZZER_CONFIG{ // the status is going to tell if the alarm is on or not
-        BUZZER_STATUS,
-        BUZZER_SNOOZE_TIME
-    };
-
-    struct ParametrizedAction{
+    struct ParametrizedAction {
         ACTION actionType;
         std::string actionParam;
     };
 
-    enum COLOURS {
-        WHITE, YELLOW, RED, BLUE
-    };
+    void to_json(json &j, const ParametrizedAction &p);
+    void from_json(const json &j, ParametrizedAction &p);
 
-
-    void to_json(json& j, const ParametrizedAction& p);
-    void from_json(const json& j, ParametrizedAction& p);
     extern const std::string EMPTY_PARAM;
 
-    namespace light{
+    namespace light {
         extern const std::string NONE_COLOR_PATTERN;
         extern const std::string DEFAULT_COLOR;
         extern const int DEFAULT_INTENSITY;
-        extern const int MIN_INTENSITY;
-        extern const int MAX_INTENSITY;
 
         /*
-         * State describes the bulb
-         * To use whenever we make chganes to the bulb / lights
+         * This namespace describes the bulb
          * */
         struct BulbState {
-            int intensity = DEFAULT_INTENSITY ;
+            int intensity = DEFAULT_INTENSITY;
             std::string colorPattern = NONE_COLOR_PATTERN;
             std::string color = DEFAULT_COLOR;
             bool isOn = false;
             bool presence = false;
         };
-        void to_json(json& j, const BulbState& p);
-        void from_json(const json& j, BulbState& p);
+
+        void to_json(json &j, const BulbState &p);
+        void from_json(const json &j, BulbState &p);
     }
 
     namespace buzzer {
+
+        /*
+         * This namespace describes the buzzer
+         * */
         struct BuzzerState {
             bool status = false;
             time_t snooze_time = time(0); // current time
         };
-        void to_json(json& j, const BuzzerState& p);
-        void from_json(const json& j, BuzzerState& p);
+
+        void to_json(json &j, const BuzzerState &p);
+        void from_json(const json &j, BuzzerState &p);
     }
 
 };
@@ -96,39 +79,36 @@ class SmartLamp {
 
 public:
 
-
-    explicit SmartLamp(){
-        possibleActions.insert(std::make_pair("TURN_ON_LIGHT",smartlamp::ACTION::TURN_ON_LIGHT));
-        possibleActions.insert(std::make_pair("TURN_OFF_LIGHT",smartlamp::ACTION::TURN_OFF_LIGHT));
-        possibleActions.insert(std::make_pair("CHANGE_COLOR",smartlamp::ACTION::CHANGE_COLOR));
-        possibleActions.insert(std::make_pair("START_COLOR_PATTERN",smartlamp::ACTION::START_COLOR_PATTERN));
-
-        possibleActions.insert(std::make_pair("TURN_ON_BUZZER",smartlamp::ACTION::TURN_ON_LIGHT));
-        possibleActions.insert(std::make_pair("TURN_OFF_BUZZER",smartlamp::ACTION::TURN_OFF_LIGHT));
-
+    explicit SmartLamp() {
+        possibleActions.insert(std::make_pair("TURN_ON_LIGHT", smartlamp::ACTION::TURN_ON_LIGHT));
+        possibleActions.insert(std::make_pair("TURN_OFF_LIGHT", smartlamp::ACTION::TURN_OFF_LIGHT));
+        possibleActions.insert(std::make_pair("CHANGE_COLOR", smartlamp::ACTION::CHANGE_COLOR));
+        possibleActions.insert(std::make_pair("START_COLOR_PATTERN", smartlamp::ACTION::START_COLOR_PATTERN));
         possibleActions.insert(std::make_pair("CHANGE_INTENSITY", smartlamp::ACTION::CHANGE_INTENSITY));
+
+        possibleActions.insert(std::make_pair("TURN_ON_BUZZER", smartlamp::ACTION::TURN_ON_LIGHT));
+        possibleActions.insert(std::make_pair("TURN_OFF_BUZZER", smartlamp::ACTION::TURN_OFF_LIGHT));
 
     };
 
     bool hasMapping(const std::string &mapping);
-    void setMicSensitivity(const int &sensitivity);
-    int getMicSensitivity();
 
-    std::unordered_map<std::string,smartlamp::ParametrizedAction> getSoundPatterns();
-    bool addSoundPattern(const std::string &regexPattern, smartlamp::ACTION action);
-    bool addSoundPattern(const std::string &regexPattern, const string& action);
-    bool addSoundPattern(const std::string &regexPattern, const string& action, const string&optionValue);
+    void setMicSensitivity(const int &sensitivity);
+    int getMicSensitivity() const;
+
+    std::unordered_map<std::string, smartlamp::ParametrizedAction> getSoundPatterns();
+    bool addSoundPattern(const std::string &regexPattern, const string &action);
+    bool addSoundPattern(const std::string &regexPattern, const string &action, const string &optionValue);
 
     void setBuzzerStatus(const int &status);
-    int getBuzzerStatus();
-
+    int getBuzzerStatus() const;
     void setBuzzerSnoozeTime(const time_t &snooze_time);
-    time_t getBuzzerSnoozeTime();
+    time_t getBuzzerSnoozeTime() const;
 
     smartlamp::light::BulbState getBulbState();
 
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
-    void onBrightnessRecorded(const int&recordedBrightness, bool detectPresence);
+    void onBrightnessRecorded(const int &recordedBrightness, bool detectPresence);
 
 private:
     /*Members that can adjust the microphone */
@@ -136,7 +116,6 @@ private:
      * All the recorded sound patterns that, when detected, will result in a state change of the lamp
      * where the key is the pattern, e.g. '1000101011' and the value is the possible ACTION. */
     std::unordered_map<std::string, smartlamp::ParametrizedAction> soundPatternsMapping;
-    std::unordered_map<std::string, smartlamp::ParametrizedAction> photorezistorPatternsMapping;
 
     std::unordered_map<std::string, smartlamp::ACTION> possibleActions;
     /*Change fields of this whenever working with the bulb
@@ -150,8 +129,7 @@ private:
     smartlamp::buzzer::BuzzerState currentBuzzerState;
 
     int micSensitivity;
-    int buzzerStatus;
-    time_t buzzerSnoozeTime;
+    smartlamp::buzzer::BuzzerState buzzerState;
     int lightIntensity;
     int lightValue;
 };
