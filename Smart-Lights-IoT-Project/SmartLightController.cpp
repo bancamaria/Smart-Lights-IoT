@@ -153,7 +153,7 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
     }
 
     if (request.query().has("isOn")) {
-        optional<string> requestedValue = request.query().get("color");
+        optional<string> requestedValue = request.query().get("isOn");
         if (requestedValue->empty()) {
             requestedValue.value() = "0";
         }
@@ -162,7 +162,7 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
     }
 
     if (request.query().has("presence")) {
-        optional<string> requestedValue = request.query().get("color");
+        optional<string> requestedValue = request.query().get("presence");
         if (requestedValue->empty()) {
             requestedValue.value() = "0";
         }
@@ -171,7 +171,7 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
     }
 
     if (request.query().has("colorPattern")) {
-        optional<string> requestedValue = request.query().get("color");
+        optional<string> requestedValue = request.query().get("colorPattern");
         if (requestedValue->empty()) {
             requestedValue.value() = "WHITE";
         }

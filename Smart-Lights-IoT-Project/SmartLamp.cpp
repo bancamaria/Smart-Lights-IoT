@@ -195,6 +195,32 @@ int SmartLamp::getBulbIntensity() const {
     return currentBulbState.intensity;
 }
 
+int SmartLamp::getOnOffState() {
+    return currentBulbState.isOn;
+}
+
+void SmartLamp::setOnOffState(bool isOn) {
+    currentBulbState.isOn = isOn;
+}
+
+int SmartLamp::getPresence() {
+    return currentBulbState.presence;
+}
+
+void SmartLamp::setPresence(bool presence) {
+    currentBulbState.presence = presence;
+}
+
+string SmartLamp::getColorPattern() {
+    return currentBulbState.colorPattern;
+}
+
+void SmartLamp::setColorPattern(string colorPattern) {
+    currentBulbState.colorPattern = colorPattern;
+}
+
+
+
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
@@ -232,31 +258,6 @@ void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectP
     while (lightIntensity <= lightValue) // increase intensity gradually
         currentBulbState.intensity++;
 }
-
-int SmartLamp::getOnOffState() {
-    return currentBulbState.isOn;
-}
-
-void SmartLamp::setOnOffState(bool isOn) {
-    currentBulbState.isOn = isOn;
-}
-
-int SmartLamp::getPresence() {
-    return currentBulbState.presence;
-}
-
-void SmartLamp::setPresence(bool presence) {
-    currentBulbState.presence = presence;
-}
-
-string SmartLamp::getColorPattern() {
-    return currentBulbState.colorPattern;
-}
-
-void SmartLamp::setColorPattern(string colorPattern) {
-    currentBulbState.colorPattern = colorPattern;
-}
-
 
 
 
