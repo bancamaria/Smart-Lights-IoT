@@ -115,6 +115,13 @@ public:
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
     void onBrightnessRecorded(const int &recordedBrightness, bool detectPresence);
 
+    int getOnOffState();
+    void setOnOffState(bool isOn);
+    int getPresence();
+    void setPresence(bool presence);
+    string getColorPattern();
+    void setColorPattern(string colorPattern);
+
 private:
     /*Members that can adjust the microphone */
     /*

@@ -124,6 +124,9 @@ void SmartLightController::getBulbSettings(const Rest::Request &request, Http::R
     json result;
     result["color"] = smartLamp.getBulbColor();
     result["intensity"] = smartLamp.getBulbIntensity();
+    result["isOn"] = smartLamp.getOnOffState();
+    result["presence"] = smartLamp.getPresence();
+    result["colorPattern"] = smartLamp.getColorPattern();
 
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, result.dump(3));
@@ -148,6 +151,35 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         int val = std::stoi(requestedValue.value());
         smartLamp.setBulbIntensity(val);
     }
+
+    if (request.query().has("isOn")) {
+        optional<string> requestedValue = request.query().get("color");
+        if (requestedValue->empty()) {
+            requestedValue.value() = "0";
+        }
+        int val = std::stoi(requestedValue.value());
+        smartLamp.setOnOffState(val);
+    }
+
+    if (request.query().has("presence")) {
+        optional<string> requestedValue = request.query().get("color");
+        if (requestedValue->empty()) {
+            requestedValue.value() = "0";
+        }
+        int val = std::stoi(requestedValue.value());
+        smartLamp.setPresence(val);
+    }
+
+    if (request.query().has("colorPattern")) {
+        optional<string> requestedValue = request.query().get("color");
+        if (requestedValue->empty()) {
+            requestedValue.value() = "WHITE";
+        }
+        string val = requestedValue.value();
+        smartLamp.setColorPattern(val);
+    }
+
+
 }
 
 void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {
