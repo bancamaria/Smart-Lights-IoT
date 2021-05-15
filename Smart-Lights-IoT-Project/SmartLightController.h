@@ -35,6 +35,7 @@ public:
     // When signaled server shuts down
     void stop();
 
+
     /*
      * Note: required to add a refference to ResponseWriter because passing by value is not allowed
      * (copy constructor is private for some reasone).*/
@@ -44,22 +45,16 @@ public:
     void getBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setBuzzerSettings(const Rest::Request& request, Http::ResponseWriter response);
 
+    /*Return the current light state*/
     void getBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
     void setBulbSettings(const Rest::Request& request, Http::ResponseWriter response);
 
-    /*
-     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
-     * or
-     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=CHANGE_COLOR&color=COLOR
-     * or
-     * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=START_LIGHT_PATTERN&ligthPattern=PATTERN_CONFIG
-     *
-     * */
     void registerPattern(const Rest::Request& request, Http::ResponseWriter response);
     void getRegisteredPatterns(const Rest::Request& request, Http::ResponseWriter response);
 
     /*GET: http://localhost:port/microphone?recorded=X*/
     void onSoundRecorded(const Rest::Request& request, Http::ResponseWriter response);
+    void onBrightnessRecorded(const Rest::Request& request, Http::ResponseWriter response);
 
 private:
     using Lock = std::mutex;
@@ -80,5 +75,12 @@ private:
 
 };
 
-
+/*
+ * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=TURN_ON/OFF_LIGHT
+ * or
+ * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=CHANGE_COLOR&color=COLOR
+ * or
+ * POST: http://localhost:port/microphone/patterns?newPattern=val&mapsTo=START_LIGHT_PATTERN&ligthPattern=PATTERN_CONFIG
+ *
+ * */
 #endif //SMART_LIGHTS_IOT_PROJECT_SMARTLIGHTCONTROLLER_H

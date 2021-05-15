@@ -7,7 +7,10 @@
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/googletest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/rapidjson" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/pistache-src/third-party/rapidjson/thirdparty/gtest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidjson-src" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cmake-build-debug/_deps/rapidjson-src/thirdparty/gtest" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/include/rapidjson" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/include/rapidjson/thirdparty/gtest" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/pistache" vcs="Git" />
   </component>
 </project>
