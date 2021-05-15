@@ -117,25 +117,25 @@ pair<light::BulbState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const str
 
     switch (it->second.actionType) {
         case ACTION::TURN_ON_LIGHT: {
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
             currentBulbState.color = light::DEFAULT_COLOR;
             currentBulbState.intensity = 5;
             currentBulbState.colorPattern = light::NONE_COLOR_PATTERN;
             break;
         }
         case ACTION::TURN_OFF_LIGHT: {
-            currentBulbState.isOn = false;
+            currentBulbState.isOn = 0;
             break;
         }
         case ACTION::CHANGE_COLOR: {
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
             currentBulbState.colorPattern = light::NONE_COLOR_PATTERN;
             currentBulbState.color = it->second.actionParam;
             break;
         }
 
         case ACTION::START_COLOR_PATTERN: {
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
             currentBulbState.color = light::DEFAULT_COLOR;
             currentBulbState.colorPattern = it->second.actionParam;
             break;
@@ -179,15 +179,55 @@ smartlamp::light::BulbState SmartLamp::getBulbState() {
     return currentBulbState;
 }
 
+void SmartLamp::setBulbColor(string color) {
+    currentBulbState.color = color;
+}
+
+string SmartLamp::getBulbColor() const {
+    return currentBulbState.color;
+}
+
+void SmartLamp::setBulbIntensity(int intensity) {
+    currentBulbState.intensity = intensity;
+}
+
+int SmartLamp::getBulbIntensity() const {
+    return currentBulbState.intensity;
+}
+
+int SmartLamp::getOnOffState() {
+    return currentBulbState.isOn;
+}
+
+void SmartLamp::setOnOffState(bool isOn) {
+    currentBulbState.isOn = isOn;
+}
+
+int SmartLamp::getPresence() {
+    return currentBulbState.presence;
+}
+
+void SmartLamp::setPresence(bool presence) {
+    currentBulbState.presence = presence;
+}
+
+string SmartLamp::getColorPattern() {
+    return currentBulbState.colorPattern;
+}
+
+void SmartLamp::setColorPattern(string colorPattern) {
+    currentBulbState.colorPattern = colorPattern;
+}
+
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
 
     if (recordedBrightness >= 5 && recordedBrightness <= 30)
         if (detectPresence) {
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
             currentBulbState.color = std::to_string(COLORS::WHITE);
-            currentBulbState.presence = true;
+            currentBulbState.presence = 1;
 
             if (smartlamp::buzzer::is_morning()) { // turn on the buzzer
                 setBuzzerStatus(1);
@@ -196,29 +236,26 @@ void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectP
         }
     if (recordedBrightness >= 60 && recordedBrightness <= 100)
         if (detectPresence) {
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
             currentBulbState.color = std::to_string(COLORS::BLUE);
-            currentBulbState.presence = true;
+            currentBulbState.presence = 1;
         }
     if (recordedBrightness >= 30 && recordedBrightness <= 60) {
         if (detectPresence)
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
         currentBulbState.color = std::to_string(COLORS::YELLOW);
-        currentBulbState.presence = true;
+        currentBulbState.presence = 1;
     }
     if (recordedBrightness >= 0 && recordedBrightness <= 5) {
         if (detectPresence)
-            currentBulbState.isOn = true;
+            currentBulbState.isOn = 1;
         currentBulbState.color = std::to_string(COLORS::RED);
-        currentBulbState.presence = true;
+        currentBulbState.presence = 1;
     }
 
     while (lightIntensity <= lightValue) // increase intensity gradually
         currentBulbState.intensity++;
 }
-
-
-
 
 
 
