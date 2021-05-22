@@ -39,6 +39,9 @@ namespace smartlamp {
         const std::string NONE_COLOR_PATTERN = "NONE";
         const std::string DEFAULT_COLOR = "WHITE";
         const int DEFAULT_INTENSITY = 5;
+        const int DEFAULT_PRESENCE = 0;
+        const int DEFAULT_ISON = 0;
+        const int DEFAULT_BRIGHTNESS = 0;
     }
 
     namespace buzzer {
@@ -219,6 +222,10 @@ void SmartLamp::setColorPattern(string colorPattern) {
     currentBulbState.colorPattern = colorPattern;
 }
 
+int SmartLamp::getBrightness() {
+    return currentBulbState.brightness;
+}
+
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
@@ -256,7 +263,3 @@ void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectP
     while (lightIntensity <= lightValue) // increase intensity gradually
         currentBulbState.intensity++;
 }
-
-
-
-
