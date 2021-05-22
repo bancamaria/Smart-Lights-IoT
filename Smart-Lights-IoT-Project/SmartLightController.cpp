@@ -107,8 +107,8 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
     if (request.query().has("snooze_timer")) {
         optional<string> val = request.query().get("snooze_timer");
         string value = val.value();
-        value.replace(0, 3, "");
-        value.replace(value.length() - 3, 3, "");
+//        value.replace(0, 3, "");
+//        value.replace(value.length() - 3, 3, "");
 
         const char *time_details = value.c_str();
         struct tm tm{};
