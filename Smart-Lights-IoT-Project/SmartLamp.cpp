@@ -219,8 +219,6 @@ void SmartLamp::setColorPattern(string colorPattern) {
     currentBulbState.colorPattern = colorPattern;
 }
 
-
-
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
