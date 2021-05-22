@@ -35,7 +35,7 @@ void SmartLightController::setupRoutes() {
     Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
     Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
-    Routes::Get(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
+    Routes::Post(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
 
     Routes::Get(router, "/buzzer/settings", Routes::bind(&SmartLightController::getBuzzerSettings, this));
     Routes::Post(router, "/buzzer/settings", Routes::bind(&SmartLightController::setBuzzerSettings, this));
@@ -107,8 +107,8 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
     if (request.query().has("snooze_timer")) {
         optional<string> val = request.query().get("snooze_timer");
         string value = val.value();
-        value.replace(0, 3, "");
-        value.replace(value.length() - 3, 3, "");
+//        value.replace(0, 3, "");
+//        value.replace(value.length() - 3, 3, "");
 
         const char *time_details = value.c_str();
         struct tm tm{};
