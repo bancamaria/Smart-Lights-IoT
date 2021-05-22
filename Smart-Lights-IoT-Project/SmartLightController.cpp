@@ -42,7 +42,6 @@ void SmartLightController::setupRoutes() {
 
     Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
     Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
-    Routes::Get(router, "/bulb", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
 
 }
 
@@ -127,11 +126,11 @@ void SmartLightController::getBulbSettings(const Rest::Request &request, Http::R
     result["isOn"] = smartLamp.getOnOffState();
     result["presence"] = smartLamp.getPresence();
     result["colorPattern"] = smartLamp.getColorPattern();
+    result["brightness"] = smartLamp.getBrightness();
 
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, result.dump(3));
 }
-
 
 void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
     if (request.query().has("color")) {
@@ -179,6 +178,17 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         smartLamp.setColorPattern(val);
     }
 
+    auto isValid = isValidRequestParam("brightness", request, response);
+    if (!isValid.first)
+        return;
+
+    auto isValid2 = isValidRequestParam("presence", request, response);
+    if(!isValid2.first)
+        return;
+
+    int recordedBrightness = std::stoi(isValid.second);
+    int detectPresence = std::stoi(isValid2.second);
+    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
 
 }
 
@@ -290,23 +300,6 @@ void SmartLightController::onSoundRecorded(const Rest::Request &request, Http::R
     response.send(Http::Code::Ok, j.dump());
 }
 
-void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Http::ResponseWriter response) {
-    auto isValid = isValidRequestParam("brightness", request, response);
-    if (!isValid.first)
-        return;
-
-    auto isValid2 = isValidRequestParam("presence", request, response);
-    if(!isValid2.first)
-        return;
-
-    int recordedBrightness = std::stoi(isValid.second);
-    int detectPresence = std::stoi(isValid2.second);
-    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
-    /*TODO D&A: Complete inside SmartLamp.cpp*/
-
-}
-
-
 std::pair<bool, std::string>
 SmartLightController::isValidRequestParam(const std::string &paramName, const Rest::Request &request,
                                           Http::ResponseWriter &response) {
@@ -322,4 +315,3 @@ SmartLightController::isValidRequestParam(const std::string &paramName, const Re
     }
     return {true, *paramValue};
 }
-

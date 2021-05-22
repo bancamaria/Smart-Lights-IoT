@@ -42,6 +42,9 @@ namespace smartlamp {
         extern const std::string NONE_COLOR_PATTERN;
         extern const std::string DEFAULT_COLOR;
         extern const int DEFAULT_INTENSITY;
+        extern const int DEFAULT_ISON;
+        extern const int DEFAULT_PRESENCE;
+        extern const int DEFAULT_BRIGHTNESS;
 
         /*
          * This namespace describes the bulb
@@ -50,8 +53,9 @@ namespace smartlamp {
             int intensity = DEFAULT_INTENSITY;
             std::string colorPattern = NONE_COLOR_PATTERN;
             std::string color = DEFAULT_COLOR;
-            bool isOn = false;
-            bool presence = false;
+            int isOn = DEFAULT_ISON;
+            int presence = DEFAULT_PRESENCE;
+            int brightness = DEFAULT_BRIGHTNESS;
         };
 
         void to_json(json &j, const BulbState &p);
@@ -115,6 +119,7 @@ public:
     void setPresence(bool presence);
     string getColorPattern();
     void setColorPattern(string colorPattern);
+    int getBrightness();
 
     smartlamp::light::BulbState getBulbState();
 
