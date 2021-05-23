@@ -226,12 +226,12 @@ int SmartLamp::getBrightness() {
     return currentBulbState.brightness;
 }
 
+void SmartLamp::setBulbBrightness(int brightness) {
+    currentBulbState.brightness = brightness;
+}
 
 
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
-    lightIntensity = 0;
-    lightValue = 100;
-
     auto it = brightPatternsMapping.find(std::make_pair(recordedBrightness, detectPresence));
 
     // hasn't met this specific pair
@@ -243,60 +243,49 @@ void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectP
                 setBuzzerStatus(1);
                 setBuzzerSnoozeTime(time(0));
             }
+
         // if there is morning
-        if (it->first == make_pair(20, true))
-            brightPatternsMapping.insert({make_pair(20, true), "WHITE"});
-        // if there is afternoon
-        if (it->first == make_pair(70, true))
-            brightPatternsMapping.insert({make_pair(70, true), "BLUE"});
-        // if there is evening
-        if (it->first == make_pair(40, true))
-            brightPatternsMapping.insert({make_pair(40, true), "YELLOW"});
-        // if there is night
-        if (it->first == make_pair(3, true))
-            brightPatternsMapping.insert({make_pair(3, true), "RED"});
-        // default value
-        brightPatternsMapping.insert({make_pair(recordedBrightness, detectPresence), "WHITE"});
-    } else {
+        if (it->first == make_pair(20, true)) {
+            brightPatternsMapping.insert({make_pair(20, true), "BLUE"});
+            // setBulbBrightness(20);
+            // setBulbColor("BLUE");
+            brightColorMapping.insert({make_pair("BLUE", 90)});
+            currentBulbState.intensity = 90;
+        }
+            else if (it->first == make_pair(70, true)) {
+                brightPatternsMapping.insert({make_pair(70, true), "YELLOW"});
+                // setBulbBrightness(70);
+                // setBulbColor("YELLOW");
+                brightColorMapping.insert({make_pair("YELLOW", 70)});
+                currentBulbState.intensity = 70;
+            }
+                else if (it->first == make_pair(40, true)) {
+                    brightPatternsMapping.insert({make_pair(40, true), "RED"});
+                    // setBulbBrightness(40);
+                    // setBulbColor("RED");
+                    brightColorMapping.insert({make_pair("RED", 30)});
+                    currentBulbState.intensity = 30;
+                }
+                    else if (it->first == make_pair(3, true)) {
+                        brightPatternsMapping.insert({make_pair(3, true), "GREEN"});
+                        // setBulbBrightness(30);
+                        // setBulbColor("GREEN");
+                        brightColorMapping.insert({make_pair("GREEN", 100)});
+                        currentBulbState.intensity = 100;
+                    }
+                        else currentBulbState.color = "WHITE";
+
+    }
+    // this type of pair has been encountered
+    else {
         // takes second value (the color)
         currentBulbState.color = it->second;
+        auto it2 = brightColorMapping.find(it->second);
+        currentBulbState.intensity = it2->second;
     }
 
 }
 
-
-/* IT WORKS ON 22ND MAY BEFORE CHANGING ROUTES FOR BRIGHTNESS
-
-    if (recordedBrightness >= 5 && recordedBrightness <= 30)
-        if (detectPresence) {
-            currentBulbState.isOn = 1;
-            currentBulbState.color = std::to_string(COLORS::WHITE);
-            currentBulbState.presence = 1;
-
-            if (smartlamp::buzzer::is_morning()) { // turn on the buzzer
-                setBuzzerStatus(1);
-                setBuzzerSnoozeTime(time(0));
-            }
-        }
-    if (recordedBrightness >= 60 && recordedBrightness <= 100)
-        if (detectPresence) {
-            currentBulbState.isOn = 1;
-            currentBulbState.color = std::to_string(COLORS::BLUE);
-            currentBulbState.presence = 1;
-        }
-    if (recordedBrightness >= 30 && recordedBrightness <= 60) {
-        if (detectPresence)
-            currentBulbState.isOn = 1;
-        currentBulbState.color = std::to_string(COLORS::YELLOW);
-        currentBulbState.presence = 1;
-    }
-    if (recordedBrightness >= 0 && recordedBrightness <= 5) {
-        if (detectPresence)
-            currentBulbState.isOn = 1;
-        currentBulbState.color = std::to_string(COLORS::RED);
-        currentBulbState.presence = 1;
-    }
-
-    while (lightIntensity <= lightValue) // increase intensity gradually
-        currentBulbState.intensity++;
-*/
+void SmartLamp::insertNewPair(const int &recordedBrightness, int detectPresence, string detectedColor) {
+    brightPatternsMapping.insert(std::make_pair(std::make_pair(recordedBrightness, detectPresence), detectedColor));
+}

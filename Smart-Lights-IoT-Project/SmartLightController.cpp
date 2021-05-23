@@ -122,56 +122,17 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
 
 void SmartLightController::getBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
     json result;
-    result["color"] = smartLamp.getBulbColor();
-    result["intensity"] = smartLamp.getBulbIntensity();
-    result["isOn"] = smartLamp.getOnOffState();
-    result["presence"] = smartLamp.getPresence();
-    result["colorPattern"] = smartLamp.getColorPattern();
     result["brightness"] = smartLamp.getBrightness();
+    result["color"] = smartLamp.getBulbColor();
+    result["presence"] = smartLamp.getPresence();
+    result["isOn"] = smartLamp.getOnOffState();
+    result["intensity"] = smartLamp.getBulbIntensity();
 
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, result.dump(3));
 }
 
 void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
-
-    if (request.query().has("color")) {
-        optional<string> requestedValue = request.query().get("color");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "WHITE";
-        }
-        string val = requestedValue.value();
-        smartLamp.setBulbColor(val);
-    }
-
-     if (request.query().has("isOn")) {
-        optional<string> requestedValue = request.query().get("isOn");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "0";
-        }
-        int val = std::stoi(requestedValue.value());
-        smartLamp.setOnOffState(val);
-    }
-
-    /*
-    if (request.query().has("colorPattern")) {
-       optional<string> requestedValue = request.query().get("colorPattern");
-       if (requestedValue->empty()) {
-           requestedValue.value() = "WHITE";
-       }
-       string val = requestedValue.value();
-       smartLamp.setColorPattern(val);
-   }
-*/
-
-   if (request.query().has("brightness")) {
-       optional<string> requestedValue = request.query().get("brightness");
-       if (requestedValue->empty()) {
-           requestedValue.value() = "0";
-       }
-       int val = std::stoi(requestedValue.value());
-       smartLamp.setBulbIntensity(val);
-   }
 
    if (request.query().has("presence")) {
        optional<string> requestedValue = request.query().get("presence");
@@ -180,20 +141,28 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
        }
        int val = std::stoi(requestedValue.value());
        smartLamp.setPresence(val);
-   }
-/*
-   auto isValid = isValidRequestParam("brightness", request, response);
-   if (!isValid.first)
-       return;
 
-   auto isValid2 = isValidRequestParam("presence", request, response);
-   if(!isValid2.first)
-       return;
+       // check if the bulb is already on
+       if (smartLamp.getPresence() == 1)
+           smartLamp.setOnOffState(1);
+   }
+
+    auto isValid = isValidRequestParam("brightness", request, response);
+    if (!isValid.first)
+        return;
+
+    auto isValid2 = isValidRequestParam("presence", request, response);
+    if(!isValid2.first)
+        return;
+
+    auto isValid3 = isValidRequestParam("color", request, response);
+    if(!isValid3.first)
+        return;
 
     int recordedBrightness = std::stoi(isValid.second);
     int detectPresence = std::stoi(isValid2.second);
-    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
-*/
+    string detectedColor = std::string(isValid3.second);
+    smartLamp.insertNewPair(recordedBrightness, detectPresence, detectedColor);
 }
 
 void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Http::ResponseWriter response) {

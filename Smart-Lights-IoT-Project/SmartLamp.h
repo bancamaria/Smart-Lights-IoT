@@ -120,11 +120,16 @@ public:
     string getColorPattern();
     void setColorPattern(string colorPattern);
     int getBrightness();
+    void setBulbBrightness(int brightness);
 
     smartlamp::light::BulbState getBulbState();
 
+    std::map<std::pair<int, bool>, std::string>brightPatternsMapping;
+    std::map<string, int>brightColorMapping;
+
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
     void onBrightnessRecorded(const int &recordedBrightness, bool detectPresence);
+    void insertNewPair(const int &recordedBrightness, int detectPresence, string detectedColor);
 
 private:
     /*Members that can adjust the microphone */
@@ -142,7 +147,6 @@ private:
      * - isOn
      * */
 
-    std::map<std::pair<int, bool>, std::string>brightPatternsMapping;
 
     smartlamp::light::BulbState currentBulbState;
     smartlamp::buzzer::BuzzerState currentBuzzerState;
@@ -151,6 +155,7 @@ private:
     smartlamp::buzzer::BuzzerState buzzerState;
     int lightIntensity;
     int lightValue;
+
 };
 
 
