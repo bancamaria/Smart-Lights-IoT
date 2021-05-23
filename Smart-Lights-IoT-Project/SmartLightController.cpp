@@ -43,6 +43,7 @@ void SmartLightController::setupRoutes() {
     Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
     Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
 
+    Routes::Post(router, "/photorezistor", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
 }
 
 /*
@@ -133,6 +134,7 @@ void SmartLightController::getBulbSettings(const Rest::Request &request, Http::R
 }
 
 void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+
     if (request.query().has("color")) {
         optional<string> requestedValue = request.query().get("color");
         if (requestedValue->empty()) {
@@ -142,16 +144,7 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         smartLamp.setBulbColor(val);
     }
 
-    if (request.query().has("intensity")) {
-        optional<string> requestedValue = request.query().get("intensity");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "0";
-        }
-        int val = std::stoi(requestedValue.value());
-        smartLamp.setBulbIntensity(val);
-    }
-
-    if (request.query().has("isOn")) {
+     if (request.query().has("isOn")) {
         optional<string> requestedValue = request.query().get("isOn");
         if (requestedValue->empty()) {
             requestedValue.value() = "0";
@@ -160,24 +153,50 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         smartLamp.setOnOffState(val);
     }
 
-    if (request.query().has("presence")) {
-        optional<string> requestedValue = request.query().get("presence");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "0";
-        }
-        int val = std::stoi(requestedValue.value());
-        smartLamp.setPresence(val);
-    }
-
+    /*
     if (request.query().has("colorPattern")) {
-        optional<string> requestedValue = request.query().get("colorPattern");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "WHITE";
-        }
-        string val = requestedValue.value();
-        smartLamp.setColorPattern(val);
-    }
+       optional<string> requestedValue = request.query().get("colorPattern");
+       if (requestedValue->empty()) {
+           requestedValue.value() = "WHITE";
+       }
+       string val = requestedValue.value();
+       smartLamp.setColorPattern(val);
+   }
+*/
 
+   if (request.query().has("brightness")) {
+       optional<string> requestedValue = request.query().get("brightness");
+       if (requestedValue->empty()) {
+           requestedValue.value() = "0";
+       }
+       int val = std::stoi(requestedValue.value());
+       smartLamp.setBulbIntensity(val);
+   }
+
+   if (request.query().has("presence")) {
+       optional<string> requestedValue = request.query().get("presence");
+       if (requestedValue->empty()) {
+           requestedValue.value() = "0";
+       }
+       int val = std::stoi(requestedValue.value());
+       smartLamp.setPresence(val);
+   }
+/*
+   auto isValid = isValidRequestParam("brightness", request, response);
+   if (!isValid.first)
+       return;
+
+   auto isValid2 = isValidRequestParam("presence", request, response);
+   if(!isValid2.first)
+       return;
+
+    int recordedBrightness = std::stoi(isValid.second);
+    int detectPresence = std::stoi(isValid2.second);
+    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
+*/
+}
+
+void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Http::ResponseWriter response) {
     auto isValid = isValidRequestParam("brightness", request, response);
     if (!isValid.first)
         return;
@@ -189,7 +208,6 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
     int recordedBrightness = std::stoi(isValid.second);
     int detectPresence = std::stoi(isValid2.second);
     smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
-
 }
 
 void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {

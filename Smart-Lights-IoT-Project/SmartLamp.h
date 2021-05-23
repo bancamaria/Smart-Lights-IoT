@@ -141,6 +141,9 @@ private:
      * - color_pattern (if set)
      * - isOn
      * */
+
+    std::map<std::pair<int, bool>, std::string>brightPatternsMapping;
+
     smartlamp::light::BulbState currentBulbState;
     smartlamp::buzzer::BuzzerState currentBuzzerState;
 

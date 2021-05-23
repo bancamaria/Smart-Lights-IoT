@@ -226,9 +226,46 @@ int SmartLamp::getBrightness() {
     return currentBulbState.brightness;
 }
 
+
+
 void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
     lightIntensity = 0;
     lightValue = 100;
+
+    auto it = brightPatternsMapping.find(std::make_pair(recordedBrightness, detectPresence));
+
+    // hasn't met this specific pair
+    if (it == brightPatternsMapping.end()) {
+
+        // if there is no one present (is asleep)
+        if (it->first == make_pair(10, false))
+            if (smartlamp::buzzer::is_morning()) { // turn on the buzzer
+                setBuzzerStatus(1);
+                setBuzzerSnoozeTime(time(0));
+            }
+        // if there is morning
+        if (it->first == make_pair(20, true))
+            brightPatternsMapping.insert({make_pair(20, true), "WHITE"});
+        // if there is afternoon
+        if (it->first == make_pair(70, true))
+            brightPatternsMapping.insert({make_pair(70, true), "BLUE"});
+        // if there is evening
+        if (it->first == make_pair(40, true))
+            brightPatternsMapping.insert({make_pair(40, true), "YELLOW"});
+        // if there is night
+        if (it->first == make_pair(3, true))
+            brightPatternsMapping.insert({make_pair(3, true), "RED"});
+        // default value
+        brightPatternsMapping.insert({make_pair(recordedBrightness, detectPresence), "WHITE"});
+    } else {
+        // takes second value (the color)
+        currentBulbState.color = it->second;
+    }
+
+}
+
+
+/* IT WORKS ON 22ND MAY BEFORE CHANGING ROUTES FOR BRIGHTNESS
 
     if (recordedBrightness >= 5 && recordedBrightness <= 30)
         if (detectPresence) {
@@ -262,4 +299,4 @@ void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectP
 
     while (lightIntensity <= lightValue) // increase intensity gradually
         currentBulbState.intensity++;
-}
+*/
