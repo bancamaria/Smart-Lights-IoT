@@ -245,7 +245,4 @@ $ sudo apt install mosquitto
 ## Pasi de rulare
 
 1. Rularea comenzii ```mosquitto -v``` in  terminal.
-2. Dupa build-ul cu build.sh, rulam /build/main
-3. Acesta va deschide HTTP (portul 9080) si input bufferele MQTT (port XXXXXX, topic "YYYYYY")
-4. Se poate modifica mqtt_publisher.cpp pentru a trimite JSON-uri variate catre client, sau se poate utiliza un alt MQTT Client pentru a trimite mesaje topicului YYYYYYYY
-5. Se poate trimite JSON prin CURL care respecta regex-ul din specificatia JSON pentru a schimba starea becului
+2. TO DO
