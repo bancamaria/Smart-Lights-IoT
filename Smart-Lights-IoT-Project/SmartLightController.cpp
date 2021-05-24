@@ -106,23 +106,25 @@ void SmartLightController::getBuzzerSettings(const Rest::Request &request, Http:
 }
 
 void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http::ResponseWriter response) {
-    if (request.query().has("status")) {
-        int val = std::stoi(request.query().get("status").get());
-        smartLamp.setBuzzerStatus(val);
-    }
-    if (request.query().has("snooze_timer")) {
-        Pistache::Optional<string> val = request.query().get("snooze_timer");
-        string value = val.get();
-        value.replace(0, 3, "");
-        value.replace(value.length() - 3, 3, "");
+    auto validStatus = isValidRequestParam("status", request, response);
+    if(!validStatus.first)
+        return;
+    int statusValue = std::stoi(validStatus.second);
+    smartLamp.setBuzzerStatus(statusValue);
 
-        const char *time_details = value.c_str();
-        struct tm tm{};
-        strptime(time_details, "%H:%M", &tm);
-        time_t t = mktime(&tm);
+    auto validSnooze = isValidRequestParam("snooze_timer", request, response);
+    if(!validSnooze.first)
+        return;
+    std::string value = validSnooze.second;
+    value.replace(0, 3, "");
+    value.replace(value.length() - 3, 3, "");
 
-        smartLamp.setBuzzerSnoozeTime(t);
-    }
+    const char *time_details = value.c_str();
+    struct tm tm{};
+    strptime(time_details, "%H:%M", &tm);
+    time_t t = mktime(&tm);
+    smartLamp.setBuzzerSnoozeTime(t);
+    response.send(Http::Code::Ok);
 }
 
 void SmartLightController::getBulbState(const Rest::Request &request, Http::ResponseWriter response) {
@@ -155,9 +157,28 @@ void SmartLightController::registerBrightnessPattern(const Rest::Request &reques
     bool detectPresence = std::stoi(isValid2.second) == 1;
     string detectedColor = isValid3.second;
     bool success = smartLamp.addBrightnessPresenceMapping(recordedBrightness, detectPresence, detectedColor);
+//    Could end it right here and the intensity will be the default of 50.
     if(!success){
         response.send(Http::Code::Internal_Server_Error,
                       "Could not save color " + detectedColor + " for brightness: " + std::to_string(recordedBrightness));
+        return;
+    }
+//    BONUS : If the user sends intensity as well, save it
+    if(request.query().has("intensity")){
+        Pistache::Optional<string> paramValue = request.query().get("intensity");
+        if (paramValue.isEmpty() || paramValue.get().empty()) {
+            response.send(Http::Code::Bad_Request, "Missing 'intensity' request parameter value.");
+            return;
+        }
+        int intensity = std::stoi(paramValue.get());
+        bool success = smartLamp.addColorIntensityMapping(detectedColor, intensity);
+//        If it is not successful, add default Intensity
+        if(!success){
+            response.send(Http::Code::Internal_Server_Error,
+                          "Could not save custom intensity for brightness: " + std::to_string(recordedBrightness));
+            return;
+        }
+        response.send(Http::Code::Ok);
         return;
     }
     response.send(Http::Code::Ok);

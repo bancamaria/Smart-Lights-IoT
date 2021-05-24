@@ -160,6 +160,55 @@ pair<light::BulbState, buzzer::BuzzerState> SmartLamp::onSoundRecorded(const str
     return make_pair(currentBulbState, currentBuzzerState); // what we should do here ?
 }
 
+
+void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
+    auto it = brightPresenceColorMap.find(std::make_pair(recordedBrightness, detectPresence));
+    if(it == brightPresenceColorMap.end()){
+//        IT MEANS WE DO NOT KNOW WHAT TO DO. The default backup behaviour should be implemented in constructor.
+        std::cout << "Could not locate behaviour for brightness " << recordedBrightness << " and presence" << detectPresence
+                  << std::endl;
+        return;
+    }
+    else {
+        currentBulbState.isOn = 1;
+        currentBulbState.brightness = it->first.first;
+        currentBulbState.presence = it->first.second;
+        currentBulbState.color = it->second;
+        auto it2 = colorIntensityMap.find(it->second);
+        if(it2 != colorIntensityMap.end())
+            currentBulbState.intensity = it2->second;
+        if (it->first.first == 10 && !it->first.second && smartlamp::buzzer::is_morning()) { // turn on the buzzer
+            setBuzzerStatus(1);
+            setBuzzerSnoozeTime(time(0));
+        }
+    }
+
+}
+
+bool SmartLamp::addBrightnessPresenceMapping(int recordedBrightness, bool detectPresence, const std::string &color) {
+    auto it = brightPresenceColorMap.find(std::make_pair(recordedBrightness, detectPresence));
+    if(it == brightPresenceColorMap.end()){
+        /*Not persisted yet. Creating.*/
+        auto result = brightPresenceColorMap.insert(std::make_pair(
+                std::make_pair(recordedBrightness, detectPresence), color));
+        return result.second;
+    }
+    it->second = color;
+    return true;
+}
+
+bool SmartLamp::addColorIntensityMapping( const std::string &detectedColor, int intensity){
+    auto it = colorIntensityMap.find(detectedColor);
+    if(it == colorIntensityMap.end()){
+        /*Not persisted yet. Default to Standard Intensity.*/
+        auto result = colorIntensityMap.insert(std::make_pair( detectedColor, intensity));
+        return result.second;
+    }
+    it -> second = intensity;
+    return true;
+}
+
+//  GETTERS & SETTERS
 void SmartLamp::setBuzzerStatus(const int &status) {
     buzzerState.status = status;
 }
@@ -230,38 +279,6 @@ void SmartLamp::setBulbBrightness(int brightness) {
     currentBulbState.brightness = brightness;
 }
 
-
-void SmartLamp::onBrightnessRecorded(const int &recordedBrightness, bool detectPresence) {
-    auto it = brightPresenceColorMap.find(std::make_pair(recordedBrightness, detectPresence));
-    if(it == brightPresenceColorMap.end()){
-//        IT MEANS WE DO NOT KNOW WHAT TO DO. The default backup behaviour should be implemented in constructor.
-        std::cout << "Could not locate behaviour for brightness " << recordedBrightness << " and presence" << detectPresence
-        << std::endl;
-        return;
-    }
-    else {
-        currentBulbState.isOn = 1;
-        currentBulbState.brightness = it->first.first;
-        currentBulbState.presence =it->first.second;
-        currentBulbState.color = it->second;
-        auto it2 = brightIntensityMap.find(it->second);
-        if(it2 != brightIntensityMap.end())
-            currentBulbState.intensity = it2->second;
-    }
-
-}
-
-bool SmartLamp::addBrightnessPresenceMapping(int recordedBrightness, bool detectPresence, const std::string &color) {
-    auto it = brightPresenceColorMap.find(std::make_pair(recordedBrightness, detectPresence));
-    if(it == brightPresenceColorMap.end()){
-        /*Not persisted yet. Creating.*/
-        auto result = brightPresenceColorMap.insert(std::make_pair(
-                std::make_pair(recordedBrightness, detectPresence), color));
-        return result.second;
-    }
-    it->second = color;
-    return true;
-}
 
 smartlamp::ParametrizedAction SmartLamp::getActionForSoundPattern(const string &soundPattern) {
     auto it = soundPatternsMapping.find(soundPattern);
