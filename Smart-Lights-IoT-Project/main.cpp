@@ -1,7 +1,10 @@
 #include <pistache/endpoint.h>
 #include "SmartLightController.h"
+#include "MqttSubscriber.h"
 using namespace Pistache;
 using namespace std;
+
+
 
 int main(int argc, char *argv[]) {
     sigset_t signals;
@@ -14,24 +17,21 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Set a port on which your server to communicate
-    Port port(9080);
 
-
-    Address addr(Ipv4::any(), port);
     int thr = 2;
 
     cout << "Cores = " << hardware_concurrency() << endl;
     cout << "Using " << thr << " threads" << endl;
 
-    // Instance of the class that defines what the server can do.
-    SmartLightController stats(addr);
-
+    Port port(9082);
+    Address addr(Ipv4::any(), port);
     // Initialize and start the server
-    stats.init(thr);
-    stats.start();
+    SmartLightController ctrl(addr);
+    ctrl.init(thr);
+    ctrl.start();
 
-
+    MqttSubscriber subscriber(&ctrl);
+    subscriber.start();
     // Code that waits for the shutdown sinal for the server
     int signal = 0;
     int status = sigwait(&signals, &signal);
@@ -44,5 +44,5 @@ int main(int argc, char *argv[]) {
         std::cerr << "sigwait returns " << status << std::endl;
     }
 
-    stats.stop();
+    ctrl.stop();
 }

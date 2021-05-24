@@ -324,3 +324,25 @@ SmartLightController::isValidRequestParam(const std::string &paramName, const Re
     }
     return {true, paramValue.get()};
 }
+
+nlohmann::json SmartLightController::onSoundRecordedMqtt(const std::string &pattern) {
+    pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> lampState = smartLamp.onSoundRecorded(
+            pattern);
+
+    smartlamp::light::BulbState lightState = lampState.first;
+    smartlamp::buzzer::BuzzerState buzzerState = lampState.second;
+
+    json j;
+    json result;
+    result["lightState"] = lightState;
+    result["buzzerState"] = buzzerState;
+    return result;
+}
+
+nlohmann::json SmartLightController::onBrightnessRecordedMqtt(const int &brightness, const bool presence) {
+    smartLamp.onBrightnessRecorded(brightness, presence);
+    smartlamp::light::BulbState lightState = smartLamp.getBulbState();
+    json result;
+    result["lightState"] = lightState;
+    return result;
+}

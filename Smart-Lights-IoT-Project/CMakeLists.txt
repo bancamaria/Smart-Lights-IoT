@@ -7,7 +7,7 @@ include(FetchContent)
 
 find_package(PkgConfig)
 pkg_check_modules(Pistache REQUIRED IMPORTED_TARGET libpistache)
-add_executable(Smart_Lights_IoT_Project main.cpp SmartLightController.cpp SmartLightController.h SmartLamp.cpp SmartLamp.h)
+add_executable(Smart_Lights_IoT_Project main.cpp SmartLightController.cpp SmartLightController.h SmartLamp.cpp SmartLamp.h MqttSubscriber.cpp MqttSubscriber.h)
 target_link_libraries(Smart_Lights_IoT_Project PkgConfig::Pistache)
 
 FetchContent_Declare(json
@@ -20,6 +20,9 @@ if(NOT json_POPULATED)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-find_library(PAHO_CLIB paho-mqtt3a REQUIRED)
+find_library(PAHO_CLIBC paho-mqtt3a REQUIRED)
+find_library(PAHO_CLIBA paho-mqtt3c REQUIRED)
+find_library(PAHO_CPPLIB paho-mqttpp3 REQUIRED)
 
-target_link_libraries( Smart_Lights_IoT_Project nlohmann_json::nlohmann_json)
+
+target_link_libraries( Smart_Lights_IoT_Project nlohmann_json::nlohmann_json paho-mqtt3a paho-mqtt3c paho-mqttpp3)
