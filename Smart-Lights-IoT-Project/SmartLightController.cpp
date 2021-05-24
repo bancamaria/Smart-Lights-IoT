@@ -34,16 +34,18 @@ void SmartLightController::setupRoutes() {
     Routes::Get(router, "/microphone/settings", Routes::bind(&SmartLightController::getMicrophoneSettings, this));
     Routes::Post(router, "/microphone/settings", Routes::bind(&SmartLightController::setMicrophoneSettings, this));
     Routes::Get(router, "/microphone/patterns", Routes::bind(&SmartLightController::getRegisteredPatterns, this));
-    Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerPattern, this));
+    Routes::Post(router, "/microphone/patterns", Routes::bind(&SmartLightController::registerSoundPattern, this));
+    /*Input Buffer: Microphone*/
     Routes::Get(router, "/microphone", Routes::bind(&SmartLightController::onSoundRecorded, this));
 
     Routes::Get(router, "/buzzer/settings", Routes::bind(&SmartLightController::getBuzzerSettings, this));
     Routes::Post(router, "/buzzer/settings", Routes::bind(&SmartLightController::setBuzzerSettings, this));
 
-    Routes::Get(router, "/bulb/settings", Routes::bind(&SmartLightController::getBulbSettings, this));
-    Routes::Post(router, "/bulb/settings", Routes::bind(&SmartLightController::setBulbSettings, this));
+    Routes::Get(router, "/bulb", Routes::bind(&SmartLightController::getBulbState, this));
+    Routes::Post(router, "/bulb/patterns", Routes::bind(&SmartLightController::registerBrightnessPattern, this));
 
-    Routes::Post(router, "/photorezistor", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
+    /*Input Buffer: Photoresistor*/
+    Routes::Post(router, "/photoresistor", Routes::bind(&SmartLightController::onBrightnessRecorded, this));
 }
 
 /*
@@ -74,13 +76,16 @@ void SmartLightController::setMicrophoneSettings(const Rest::Request &request, H
      * */
 
     if (request.query().has("sensitivity")) {
-        optional<string> requestedValue = request.query().get("sensitivity");
-        if (requestedValue->empty()) {
-            requestedValue.value() = "0";
+        Pistache::Optional<string> requestedValue = request.query().get("sensitivity");
+        if (requestedValue.isEmpty()) {
+            smartLamp.setMicSensitivity(0);
+            return;
         }
-        int val = std::stoi(requestedValue.value());
+        int val = std::stoi(requestedValue.get());
         smartLamp.setMicSensitivity(val);
+        response.send(Http::Code::Ok);
     }
+    response.send(Http::Code::Bad_Request, "No setting to update sent.");
 }
 
 void SmartLightController::getBuzzerSettings(const Rest::Request &request, Http::ResponseWriter response) {
@@ -102,12 +107,12 @@ void SmartLightController::getBuzzerSettings(const Rest::Request &request, Http:
 
 void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http::ResponseWriter response) {
     if (request.query().has("status")) {
-        int val = std::stoi(request.query().get("status").value());
+        int val = std::stoi(request.query().get("status").get());
         smartLamp.setBuzzerStatus(val);
     }
     if (request.query().has("snooze_timer")) {
-        optional<string> val = request.query().get("snooze_timer");
-        string value = val.value();
+        Pistache::Optional<string> val = request.query().get("snooze_timer");
+        string value = val.get();
         value.replace(0, 3, "");
         value.replace(value.length() - 3, 3, "");
 
@@ -120,7 +125,7 @@ void SmartLightController::setBuzzerSettings(const Rest::Request &request, Http:
     }
 }
 
-void SmartLightController::getBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
+void SmartLightController::getBulbState(const Rest::Request &request, Http::ResponseWriter response) {
     json result;
     result["brightness"] = smartLamp.getBrightness();
     result["color"] = smartLamp.getBulbColor();
@@ -132,20 +137,7 @@ void SmartLightController::getBulbSettings(const Rest::Request &request, Http::R
     response.send(Http::Code::Ok, result.dump(3));
 }
 
-void SmartLightController::setBulbSettings(const Rest::Request &request, Http::ResponseWriter response) {
-
-   if (request.query().has("presence")) {
-       optional<string> requestedValue = request.query().get("presence");
-       if (requestedValue->empty()) {
-           requestedValue.value() = "0";
-       }
-       int val = std::stoi(requestedValue.value());
-       smartLamp.setPresence(val);
-
-       // check if the bulb is already on
-       if (smartLamp.getPresence() == 1)
-           smartLamp.setOnOffState(1);
-   }
+void SmartLightController::registerBrightnessPattern(const Rest::Request &request, Http::ResponseWriter response) {
 
     auto isValid = isValidRequestParam("brightness", request, response);
     if (!isValid.first)
@@ -160,9 +152,15 @@ void SmartLightController::setBulbSettings(const Rest::Request &request, Http::R
         return;
 
     int recordedBrightness = std::stoi(isValid.second);
-    int detectPresence = std::stoi(isValid2.second);
-    string detectedColor = std::string(isValid3.second);
-    smartLamp.insertNewPair(recordedBrightness, detectPresence, detectedColor);
+    bool detectPresence = std::stoi(isValid2.second) == 1;
+    string detectedColor = isValid3.second;
+    bool success = smartLamp.addBrightnessPresenceMapping(recordedBrightness, detectPresence, detectedColor);
+    if(!success){
+        response.send(Http::Code::Internal_Server_Error,
+                      "Could not save color " + detectedColor + " for brightness: " + std::to_string(recordedBrightness));
+        return;
+    }
+    response.send(Http::Code::Ok);
 }
 
 void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Http::ResponseWriter response) {
@@ -176,10 +174,11 @@ void SmartLightController::onBrightnessRecorded(const Rest::Request &request, Ht
 
     int recordedBrightness = std::stoi(isValid.second);
     int detectPresence = std::stoi(isValid2.second);
-    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence);
+    smartLamp.onBrightnessRecorded(recordedBrightness, detectPresence == 1);
+    response.send(Http::Code::Ok);
 }
 
-void SmartLightController::registerPattern(const Rest::Request &request, Http::ResponseWriter response) {
+void SmartLightController::registerSoundPattern(const Rest::Request &request, Http::ResponseWriter response) {
 
     string bad_request_message = "In order to register a new pattern please provide the pattern and the action that maps it";
     auto isValid = isValidRequestParam("newPattern", request, response);
@@ -201,9 +200,10 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
         auto succ = smartLamp.addSoundPattern(newPattern, soundMapping);
         if (succ) {
             json sendBack;
-            sendBack["patterns"] = smartLamp.getSoundPatterns();
+            sendBack["soundPattern"] = newPattern;
+            sendBack["action"] = smartLamp.getActionForSoundPattern(newPattern);
             response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
-            response.send(Http::Code::Ok, sendBack.dump());
+            response.send(Http::Code::Created, sendBack.dump());
             return;
         }
     }
@@ -227,9 +227,10 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
             auto succss = smartLamp.addSoundPattern(newPattern, soundMapping, color);
             if (succss) {
                 json sendBack;
-                sendBack["patterns"] = smartLamp.getSoundPatterns();
+                sendBack["soundPattern"] = newPattern;
+                sendBack["action"] = smartLamp.getActionForSoundPattern(newPattern);
                 response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
-                response.send(Http::Code::Ok, sendBack.dump());
+                response.send(Http::Code::Created, sendBack.dump());
                 return;
             }
         }
@@ -246,9 +247,10 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
             auto succss = smartLamp.addSoundPattern(newPattern, soundMapping, colorPattern);
             if (succss) {
                 json sendBack;
-                sendBack["patterns"] = smartLamp.getSoundPatterns();
+                sendBack["soundPattern"] = newPattern;
+                sendBack["action"] = smartLamp.getActionForSoundPattern(newPattern);
                 response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
-                response.send(Http::Code::Ok, sendBack.dump());
+                response.send(Http::Code::Created, sendBack.dump());
                 return;
             }
         }
@@ -262,8 +264,7 @@ void SmartLightController::registerPattern(const Rest::Request &request, Http::R
 void SmartLightController::getRegisteredPatterns(const Rest::Request &request, Http::ResponseWriter response) {
     auto patterns = smartLamp.getSoundPatterns();
     json sendBack;
-//    sendBack["patterns"] = patterns;
-
+    sendBack["patterns"] = patterns;
     response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Http::Code::Ok, sendBack.dump(3));
 }
@@ -295,10 +296,10 @@ SmartLightController::isValidRequestParam(const std::string &paramName, const Re
         response.send(Http::Code::Bad_Request, "Missing " + paramName + " request parameter.");
         return {false, nullptr};
     }
-    optional<string> paramValue = request.query().get(paramName);
-    if (paramValue->empty()) {
+    Pistache::Optional<string> paramValue = request.query().get(paramName);
+    if (paramValue.isEmpty()) {
         response.send(Http::Code::Bad_Request, "Missing " + paramName + " request parameter value.");
         return {false, nullptr};
     }
-    return {true, *paramValue};
+    return {true, paramValue.get()};
 }

@@ -8,6 +8,7 @@
 #include "pistache/http.h"
 #include "nlohmann/json.hpp"
 
+
 using namespace Pistache;
 using namespace std;
 using namespace nlohmann;
@@ -21,7 +22,8 @@ namespace smartlamp {
         START_COLOR_PATTERN,
         TURN_ON_BUZZER,
         TURN_OFF_BUZZER,
-        CHANGE_INTENSITY
+        CHANGE_INTENSITY,
+        NO_ACTION
     };
 
     enum COLORS {
@@ -37,7 +39,6 @@ namespace smartlamp {
     void from_json(const json &j, ParametrizedAction &p);
 
     extern const std::string EMPTY_PARAM;
-
     namespace light {
         extern const std::string NONE_COLOR_PATTERN;
         extern const std::string DEFAULT_COLOR;
@@ -93,6 +94,21 @@ public:
         possibleActions.insert(std::make_pair("TURN_ON_BUZZER", smartlamp::ACTION::TURN_ON_LIGHT));
         possibleActions.insert(std::make_pair("TURN_OFF_BUZZER", smartlamp::ACTION::TURN_OFF_LIGHT));
 
+        brightPresenceColorMap.insert(std::make_pair(std::make_pair(20,true), "BLUE"));
+        brightIntensityMap.insert(std::make_pair("BLUE",90));
+
+        brightPresenceColorMap.insert(std::make_pair(std::make_pair(70,true), "YELLOW"));
+        brightIntensityMap.insert(std::make_pair("YELLOW",70));
+
+
+        brightPresenceColorMap.insert(std::make_pair(std::make_pair(40,true), "RED"));
+        brightIntensityMap.insert(std::make_pair("RED",30));
+
+
+        brightPresenceColorMap.insert(std::make_pair(std::make_pair(3,true), "GREEN"));
+        brightIntensityMap.insert(std::make_pair("GREEN",30));
+
+
     };
 
     bool hasMapping(const std::string &mapping);
@@ -101,14 +117,16 @@ public:
     int getMicSensitivity() const;
 
     std::unordered_map<std::string, smartlamp::ParametrizedAction> getSoundPatterns();
+    smartlamp::ParametrizedAction getActionForSoundPattern(const std::string &soundPattern);
     bool addSoundPattern(const std::string &regexPattern, const string &action);
-    bool addSoundPattern(const std::string &regexPattern, const string &action, const string &optionValue);
+    bool addBrightnessPresenceMapping(int recordedBrightness, bool detectPresence, const std::string &detectedColor);
 
+    bool addSoundPattern(const std::string &regexPattern, const string &action, const string &optionValue);
     void setBuzzerStatus(const int &status);
     int getBuzzerStatus() const;
     void setBuzzerSnoozeTime(const time_t &snooze_time);
-    time_t getBuzzerSnoozeTime() const;
 
+    time_t getBuzzerSnoozeTime() const;
     string getBulbColor() const;
     void setBulbColor(string color);
     int getBulbIntensity() const;
@@ -120,16 +138,11 @@ public:
     string getColorPattern();
     void setColorPattern(string colorPattern);
     int getBrightness();
+
     void setBulbBrightness(int brightness);
-
     smartlamp::light::BulbState getBulbState();
-
-    std::map<std::pair<int, bool>, std::string>brightPatternsMapping;
-    std::map<string, int>brightColorMapping;
-
     pair<smartlamp::light::BulbState, smartlamp::buzzer::BuzzerState> onSoundRecorded(const std::string &soundPattern);
     void onBrightnessRecorded(const int &recordedBrightness, bool detectPresence);
-    void insertNewPair(const int &recordedBrightness, int detectPresence, string detectedColor);
 
 private:
     /*Members that can adjust the microphone */
@@ -153,8 +166,8 @@ private:
 
     int micSensitivity;
     smartlamp::buzzer::BuzzerState buzzerState;
-    int lightIntensity;
-    int lightValue;
+    std::map<std::pair<int, bool>, std::string> brightPresenceColorMap;
+    std::unordered_map<std::string, int> brightIntensityMap;
 
 };
 

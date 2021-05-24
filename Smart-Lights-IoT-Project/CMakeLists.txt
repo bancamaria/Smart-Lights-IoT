@@ -20,12 +20,6 @@ if(NOT json_POPULATED)
     add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
 
-#FetchContent_Declare(pistache
-#        GIT_REPOSITORY https://github.com/pistacheio/pistache)
-#FetchContent_GetProperties(pistache)
-#if(NOT pistache_POPULATED)
-#    FetchContent_Populate(pistache)
-#    add_subdirectory(${pistache_SOURCE_DIR} ${pistache_BINARY_DIR} EXCLUDE_FROM_ALL)
-#endif()
+find_library(PAHO_CLIB paho-mqtt3a REQUIRED)
 
 target_link_libraries( Smart_Lights_IoT_Project nlohmann_json::nlohmann_json)
