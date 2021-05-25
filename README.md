@@ -245,6 +245,6 @@ $ sudo apt install mosquitto
 ## Pasi de rulare
 
 1. Rularea comenzii mosquitto -v in  terminal.
-2. Build-uim proiectul din CLion
+2. Mergem in ./Smart_Lights_IoT_Project si build-uim proiectul in CLion.
 3. Acesta va deschide HTTP (portul 9080) si input bufferele MQTT (port 1883, input topic "topic-input", output topic "topic-output")
 4. Se poate trimite JSON prin MQTT Explorer care respecta regex-ul din specificatia JSON pentru a schimba starea becului
